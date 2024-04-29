@@ -3,7 +3,7 @@ title: "Boston City Nature Challenge"
 description: "My first blog post to this new site, detailing the events of the Boston City Nature Challenge"
 author:
   - name: Jonathan Dain
-    url: https://samanthacsik.github.io/
+    url: https://jonathan-dain-42.github.io/The-Duck-Tapes/
     affiliation: VirusPlusLab at UMass Boston
     affiliation-url: https://www.theviruspluslab.com/
 date: 2024-04-29
@@ -51,13 +51,13 @@ You might be wondering at this point what I actually saw during this event right
 
 ![An American Oystercather in Flight](1B7A1843-Enhanced-NR.jpg)
 
-![Surf Scoters in Flight](1B7A1877-Enhanced-NR.jpg) 
+![Surf Scoters in Flight](1B7A1877-Enhanced-NR.jpg)
 
-If you want to see more pcitures from the Boston City Nature challenge you can view them all [here](https://www.inaturalist.org/projects/city-nature-challenge-2024-boston-area), which is the same link as above.  
+If you want to see more pcitures from the Boston City Nature challenge you can view them all [here](https://www.inaturalist.org/projects/city-nature-challenge-2024-boston-area), which is the same link as above.
 
-If you want to see more of my photos and citizen science you can see my [eBird account](https://ebird.org/profile/MTM3MjY4OA) and my [iNaturalist account](https://www.inaturalist.org/people/399415) for more.  
+If you want to see more of my photos and citizen science you can see my [eBird account](https://ebird.org/profile/MTM3MjY4OA) and my [iNaturalist account](https://www.inaturalist.org/people/399415) for more.
 
-I hope you have a fantastic day and as always keep your eyes to the sky!  
+I hope you have a fantastic day and as always keep your eyes to the sky!
 
 Cheers, Jonathan Dain
 
