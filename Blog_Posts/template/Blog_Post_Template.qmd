@@ -1,0 +1,12 @@
+---
+title: "blog post title"
+description: "blog post description (appears underneath the title in smaller text) which is included on the listing page"
+author:
+  - name: Jonathan Dain
+    url: https://samanthacsik.github.io/
+    affiliation: VirusPlusLab at UMass Boston
+    affiliation-url: https://www.theviruspluslab.com/
+date: 10-24-2022
+categories: [All] # self-defined categories
+draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+---

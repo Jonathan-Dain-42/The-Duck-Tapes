@@ -1,0 +1,23 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "The Duck Tapes"
+  navbar:
+    right:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: About Me
+      - href: posts.qmd
+        text: My Blog
+
+format:
+  html:
+    theme: 
+    - solar
+    - custom.css
+    toc: true
+
+editor: visual

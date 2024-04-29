@@ -1,0 +1,34 @@
+/*-- scss:defaults --*/
+// Base document colors
+$body-bg: #fdf6e3;
+$body-color: #4c4c4c;
+$link-color: #76AADB;
+
+// Code blocks
+$code-block-bg-alpha: -.8;
+
+@import
+url(‘https://fonts.googleapis.com/css?family=IM+Fell+English&display=swap’);
+$font-family-regular-400: 'IM Fell English', regular-400;
+$font-family-regular-400-italic: 'IM Fell English', regular-400-italic;
+
+/*-- scss:rules --*/
+/* Custom text color class */
+h1 {
+  font-family: 'IM Fell English'
+}
+
+h2 {
+font-family: 'IM Fell English';
+font-size: 30px;
+}
+
+h3, h4 {
+font-family: 'IM Fell English';
+font-size: 25px;
+}
+
+p {font-family: 'IM Fell English';
+#font-style:italic;
+font-size: 20px;
+}
