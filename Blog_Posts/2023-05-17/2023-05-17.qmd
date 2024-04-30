@@ -1,0 +1,38 @@
+---
+title: "Big Day Boston 2023"
+description: "Reposting my older posts from the previous blog here. This post is about the the Big Day Boston Birding event in 2023"
+author:
+  - name: Jonathan Dain
+    url: https://jonathan-dain-42.github.io/The-Duck-Tapes/
+    affiliation: VirusPlusLab at UMass Boston
+    affiliation-url: https://www.theviruspluslab.com/
+date: 2023-05-17
+categories: [Birding] # self-defined categories
+draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+---
+
+![Yours truly at the Boston Public Garden during Big Day Boston 2023](Me_at_public_garden.jpeg)
+
+I just moved to Boston last August and got into “Birding” as part of my Ph.D. at UMASS Boston studying Avian Influenza transmission. Since then I have been birding almost daily and increasing my understanding of the amazing world of Ornithology.
+
+I was really excited to see that there was a local birding event near where I was that was dedicated to the joyful task of seeing birds in your own backyard. It was an amazing day to have an event as well, given that the weather was just starting to turn and it was warm and sunny. To make it even more special I had just gotten an alert from Cornell that there was supposed to be a mass migration of birds(mostly passerines) in the days leading up to the event. All of this equated to one very happy #BirdNerd.
+
+Amanda (my wife) and I got there and met the hosts briefly before locking our eyes on the sky. They were incredibly nice people and even had a screen printing station with their custom logo! Their love for birds was on full display and it was an honor to be part of their inaugural birding event.
+
+As for the reason for all our excitement………our feathery friends we saw so many wonderful species including my favorite bird the Common Loon (Gavia immer), who was in full breeding plumage and eating crabs in the wharf. Side note did you know loons have solid bones! Thats pretty wild for a bird that still has to fly relatively long distances! I walked away from this event with 24 total species, three of which were lifers (Black and White Warbler, Blue-Grey Gnatcatcher, and Common Tern), and better still a greater appreciation of Boston’s local avian biodiversity.
+
+Huge thank you for all the work that went into setting up this event and I can’t wait for next year. Here is a link to my eBird Trip report if you want to see all the species I saw. **Until next time keep your eyes to the sky!**
+
+Cheers, Jonathan Dain
+
+
+::: {layout-nrow=2}
+![My Field Guide and BigDayBoston Checklist](Sibley_Checklist.jpeg)
+
+![Repping their screen printed shirt!](Custom_Shirt.jpeg)  
+
+ 
+![Momma Robin incubating some eggs](Momma_Robin.jpeg)  
+:::
+   
+  

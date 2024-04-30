@@ -1,0 +1,28 @@
+---
+title: "A New Year..."
+description: "Reposting old blogs from previous website."
+author:
+  - name: Jonathan Dain
+    url: https://jonathan-dain-42.github.io/The-Duck-Tapes/
+    affiliation: VirusPlusLab at UMass Boston
+    affiliation-url: https://www.theviruspluslab.com/
+date: 2024-01-09
+categories: [Thoughts] # self-defined categories
+draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+---
+
+![A Great Black-Backed Gull from Appledore Island](GBBG.jpeg)
+
+Good Morning Friends and Happy New Year!
+
+The new year can bring with it a myriad of emotions, sometimes both positive and negative. Depending on where you are the new year can mean the start of winter or it can mean the start of a new exciting routine. Often though it just represents a new opportunity. My wife mentioned to me recently that she does not “get” the “new-year-new-me” trend because if someone wanted to change how they lived why not just start immediately rather than wait till the new year. It is an interesting “habit” that most of us have to make these new year’s changes, but I think it stems from this idea that when one calendar year closes another opens with an opportunity to make it different than the last.
+
+I started this new year with several goals in mind, one of them being to be more active on this blog for example. Now I use the term goal instead of resolution because I want it to be something that I am aiming towards, a new “identity” if you will. This would be opposed to a resolution that often feels very legalistic to me and seems to try to change the individual by focusing solely on the outcome rather than the driver of our actions. I want to be someone who writes, rather than making a rule over myself to write on some fixed schedule. It’s a slight difference but I maintain that inward change leads outward but not the inverse.
+
+Now this is a research blog so why am I talking about the new year and goals? Well, over the next several blog posts I will be outlining the major steps and ideas that are shaping how I am currently thinking about my research. It is my goal to do this for several reasons but the primary two are; one as I start writing my dissertation I will need to write anyway and this will allow me to write about my work in a much different style than scientific literature, and two I get to share it with you which is fun in and of itself.
+
+I hope that this new year is full of great opportunities for you to build better habits, change a mindset, write that paper, text that friend, or do any of the other things we as humans need to do. Most of all I hope you take the time to be intentional and seize the chance to change. There is no time like the present and as one of my best friends says, “The time will pass anyway whether I want it to or not so might as well make the most of it”.
+
+Until next time keep your eyes to the sky
+
+Cheers, Jonathan 
