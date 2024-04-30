@@ -8,7 +8,7 @@ author:
     affiliation-url: https://www.theviruspluslab.com/
 date: 2024-04-30
 categories: [analysis,phylogenetics] # self-defined categories
-draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+draft: FALSE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
 image: Mort_Tree_20240401.png
 ---
 
@@ -645,23 +645,24 @@ phylosig(tree = mort_cMap$tree,x = mortality,test = T,method = 'K') |> plot()
 phylosig(tree = mort_cMap$tree, x=mortality,test = T,method = "lambda")
 phylosig(tree = mort_cMap$tree, x=mortality,test = T,method = "lambda") |> plot()
 ```
-The Blomberg's K suggests that while the actual value of K is small it is larger than what is expected under a null distribution given a tree of our configuration. We typically see this when you have rapid diversification or the trait is restricted to a single clade in the tree. 
+
+The Blomberg's K suggests that while the actual value of K is small it is larger than what is expected under a null distribution given a tree of our configuration. We typically see this when you have rapid diversification or the trait is restricted to a single clade in the tree.
 
 ## Our Final Plot:
 
-Finally lets just plot the final tree one last time to really see it. 
+Finally lets just plot the final tree one last time to really see it.
 
 ![Mortality to HPAI Plotted on an Avian Tree](Mort_Tree_20240401.png)
 
 ### Key Takeaways:
 
-- The majority of the tree is purple, indicating very high mortality due to HPAI.  
-- The areas of yellow, indicating low mortality to HPAI are primarily restricted to members of the family ANATIDAE, which include our lovely friends the Mallard and American Black Duck.   
-- While the "tolerance" to HPAI is likely to place a species into the "super-spreader" camp given that there are so many taxa that have high mortality there might be other "super-spreaders" that exhibit a vastly different phenotype than being asymptomatic. 
+-   The majority of the tree is purple, indicating very high mortality due to HPAI.\
+-   The areas of yellow, indicating low mortality to HPAI are primarily restricted to members of the family ANATIDAE, which include our lovely friends the Mallard and American Black Duck.\
+-   While the "tolerance" to HPAI is likely to place a species into the "super-spreader" camp given that there are so many taxa that have high mortality there might be other "super-spreaders" that exhibit a vastly different phenotype than being asymptomatic.
 
-### Future Directions: 
+### Future Directions:
 
-- To answer that last point about alternatives to asymptomatic "super-spreaders", I am planning on performing a bayesian phylodynamic assay to evaluate source/sink dynamics. This will tell me if the taxa that are colored purple are acting as sources "spreaders" or sinks. In short it will tell me if there really is another version of "super-spreader". 
+-   To answer that last point about alternatives to asymptomatic "super-spreaders", I am planning on performing a bayesian phylodynamic assay to evaluate source/sink dynamics. This will tell me if the taxa that are colored purple are acting as sources "spreaders" or sinks. In short it will tell me if there really is another version of "super-spreader".
 
 I hope that this script has been as helpful to you as it was to me. As always keep your eyes to the sky!
 
