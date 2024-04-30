@@ -8,10 +8,10 @@ author:
     affiliation-url: https://www.theviruspluslab.com/
 date: 2023-06-15
 categories: [Nantucket] # self-defined categories
-draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+draft: FALSE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
 ---
 
-:::{layout-ncol=2}
+::: {layout-ncol="2"}
 ![Yours truly holding a duckling](Holding_Duckling.jpeg)
 
 ![Swabbing a duckling](Swabbing_Duckling.jpeg)
@@ -29,12 +29,10 @@ It is hard to explain the feeling of holding these magnificent animals knowing t
 
 Cheers, Jonathan Dain
 
-:::{layout-nrow=2}
-
+::: {layout-nrow="2"}
 ![Melba holding a MALL hen (female) while Connor and I dipnet the others](Clover_trap.jpeg){.lightbox}
 
-![The team and I next to Melba’s beautiful sign.](The_Team.jpeg)   
+![The team and I next to Melba’s beautiful sign.](The_Team.jpeg)
 
-![Man can’t beat this view! Our two water clover-leaf traps worked great and gave us ideas to improve them.](Deployed_Traps.jpeg)   
-
+![Man can’t beat this view! Our two water clover-leaf traps worked great and gave us ideas to improve them.](Deployed_Traps.jpeg)
 :::

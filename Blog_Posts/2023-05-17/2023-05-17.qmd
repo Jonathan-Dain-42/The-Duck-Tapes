@@ -8,7 +8,7 @@ author:
     affiliation-url: https://www.theviruspluslab.com/
 date: 2023-05-17
 categories: [Birding] # self-defined categories
-draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+draft: FALSE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
 ---
 
 ![Yours truly at the Boston Public Garden during Big Day Boston 2023](Me_at_public_garden.jpeg)
@@ -25,14 +25,10 @@ Huge thank you for all the work that went into setting up this event and I canâ€
 
 Cheers, Jonathan Dain
 
-
-::: {layout-nrow=2}
+::: {layout-nrow="2"}
 ![My Field Guide and BigDayBoston Checklist](Sibley_Checklist.jpeg)
 
-![Repping their screen printed shirt!](Custom_Shirt.jpeg)  
+![Repping their screen printed shirt!](Custom_Shirt.jpeg)
 
- 
-![Momma Robin incubating some eggs](Momma_Robin.jpeg)  
+![Momma Robin incubating some eggs](Momma_Robin.jpeg)
 :::
-   
-  

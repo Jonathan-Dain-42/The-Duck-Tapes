@@ -8,7 +8,7 @@ author:
     affiliation-url: https://www.theviruspluslab.com/
 date: 2023-01-20
 categories: [Nantucket] # self-defined categories
-draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+draft: FALSE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
 ---
 
 Field Biology is the name of the game when it comes to wild birds. You simply cannot hope to study the ecology of these birds from the inside of a brick building. You have to venture out into the woods, shores, and oceans to find them. They often don’t come to you, which means exploring quite challenging places, while the birds are 50 feet in the air, or floating atop the waves. You are often cold, wet, hungry, and in environments that more than a few people would consider “less than optimal”. Yet the moment you see one of these gulls, ducks, or finches soaring, bouncing, or flinting through the air, the reason why you are out there in the first place becomes clear. Today I want to tell you about the unique resource that UMB has at its disposal.

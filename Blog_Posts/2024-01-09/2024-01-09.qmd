@@ -8,7 +8,7 @@ author:
     affiliation-url: https://www.theviruspluslab.com/
 date: 2024-01-09
 categories: [Thoughts] # self-defined categories
-draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+draft: FALSE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
 ---
 
 ![A Great Black-Backed Gull from Appledore Island](GBBG.jpeg)
@@ -25,4 +25,4 @@ I hope that this new year is full of great opportunities for you to build better
 
 Until next time keep your eyes to the sky
 
-Cheers, Jonathan 
+Cheers, Jonathan
