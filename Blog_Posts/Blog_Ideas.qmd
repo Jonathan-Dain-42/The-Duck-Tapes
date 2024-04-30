@@ -17,3 +17,8 @@ A quick intro to using GISAID
 
 A Quick intro to using Quarto
 
+For the extra pages to have the following:
+- links to my eventual book
+- links to CRC maybe
+- a disclamer that they are seperate from my PhD and not affiliated with the lab. 
+
