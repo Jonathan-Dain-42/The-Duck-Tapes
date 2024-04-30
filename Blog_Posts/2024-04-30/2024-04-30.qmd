@@ -56,7 +56,7 @@ head(Species_Lookup) |> kable()
 Finally as you might be wondering we need a bird phylogenetic tree! Thankfully the hard work of actually producing a bird tree has been done for us by the lovely people at [BirdTree](https://birdtree.org/), we just get to reap the benefits.
 
 ```{r Load Species Tree}
-allbirdtree <- readRDS(file = "data/allbirdtree.rds")
+# -> allbirdtree <- readRDS(file = "data/allbirdtree.rds")
 
 #' note this is a massive multiphylo object so it may take a smidge of time to load.
 #' I had to remove this due to size limits but those interested can email me for more detail. 
