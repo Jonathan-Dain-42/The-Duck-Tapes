@@ -12,7 +12,19 @@ website:
         text: About Me
       - href: posts.qmd
         text: My Blog
-
+    tools: 
+      - icon: github
+        url: https://github.com/Jonathan-Dain-42/The-Duck-Tapes
+  page-footer: 
+    left: "Copyright 2024, Jonathan Dain" 
+    center: 
+      - icon: github
+        href: https://github.com/Jonathan-Dain-42/
+      - icon: instagram 
+        href: https://www.instagram.com/voices_of_the_warf/
+      - icon: envelope 
+        href: mailto:jonathan.dain001@umb.edu
+          
 format:
   html:
     theme: 
