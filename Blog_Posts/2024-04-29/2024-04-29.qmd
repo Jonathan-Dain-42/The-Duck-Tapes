@@ -14,7 +14,7 @@ lightbox: TRUE
 image: 1B7A1788-Enhanced-NR.jpg
 ---
 
-> The [**City Nature Challenge**](https://www.inaturalist.org/projects/city-nature-challenge-2024-boston-area) is a fun worldwide collaborative bioblitz with cities across the world to observe the most species (April 26 - April 29) and then ID them (April 30 - May 6)! We'll be documenting urban biodiversity within the I-495 corridor, out to Stellwagen Bank, including Cape Cod and islands. It's simple, it's fun, and it contributes to scientific data helping to better understand our world and our non-human neighbors!\
+> The [**City Nature Challenge**](https://www.inaturalist.org/projects/city-nature-challenge-2024-boston-area) is a fun worldwide collaborative bio-blitz with cities across the world to observe the most species (April 26 - April 29) and then ID them (April 30 - May 6)! We'll be documenting urban biodiversity within the I-495 corridor, out to Stellwagen Bank, including Cape Cod and islands. It's simple, it's fun, and it contributes to scientific data helping to better understand our world and our non-human neighbors!\
 > .\
 > Copied from -\> https://www.bostoncnc.org/
 
@@ -41,7 +41,7 @@ The best part of this is that you too can participate in something like this thr
 
 It is just the click of a few buttons to get the app [here](https://www.inaturalist.org/)
 
-You might be wondering at this point what I actually saw during this event right? Well I had the privilage to work with a group of other students to survey the Harbor Islands here in Boston for birds. We went our early in the morning last Friday in a boat around the islands. Part of our team was interested in the seal population, however I wanted to highlight the amazing avian biodiversity on these islands. In total we saw over 16 species of birds. Below are some of my photos, I hope that you enjoy them as much as I do.
+You might be wondering at this point what I actually saw during this event right? Well I had the privilege to work with a group of other students to survey the Harbor Islands here in Boston for birds. We went out early in the morning last Friday in a boat around the islands. Part of our team was interested in the seal population, however I wanted to highlight the amazing avian biodiversity on these islands. In total we saw over 16 species of birds. Below are some of my photos, I hope that you enjoy them as much as I do.
 
 ![A Herring Gull](1B7A1735-Enhanced-NR.jpg)
 
@@ -53,7 +53,7 @@ You might be wondering at this point what I actually saw during this event right
 
 ![Surf Scoters in Flight](1B7A1877-Enhanced-NR.jpg)
 
-If you want to see more pcitures from the Boston City Nature challenge you can view them all [here](https://www.inaturalist.org/projects/city-nature-challenge-2024-boston-area), which is the same link as above.
+If you want to see more pictures from the Boston City Nature challenge you can view them all [here](https://www.inaturalist.org/projects/city-nature-challenge-2024-boston-area), which is the same link as above.
 
 If you want to see more of my photos and citizen science you can see my [eBird account](https://ebird.org/profile/MTM3MjY4OA) and my [iNaturalist account](https://www.inaturalist.org/people/399415) for more.
 

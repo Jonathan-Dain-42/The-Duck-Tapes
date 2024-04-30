@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jonathan Dain">
+<meta name="dcterms.date" content="2024-04-30">
+<meta name="description" content="A Short R document detailing a analysis on HPAI and mortality from a phylogenetic standpoint">
+
+<title>The Duck Tapes - Mortality to HPAI and Trees</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">The Duck Tapes</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html" rel="" target="">
+ <span class="menu-text">My Blog</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#wild-bird-mortality-and-highly-pathogenic-avian-influenza" id="toc-wild-bird-mortality-and-highly-pathogenic-avian-influenza" class="nav-link active" data-scroll-target="#wild-bird-mortality-and-highly-pathogenic-avian-influenza">Wild Bird Mortality and Highly Pathogenic Avian Influenza</a>
+  <ul class="collapse">
+  <li><a href="#load-some-packages." id="toc-load-some-packages." class="nav-link" data-scroll-target="#load-some-packages.">Load some packages.</a></li>
+  <li><a href="#load-some-data." id="toc-load-some-data." class="nav-link" data-scroll-target="#load-some-data.">Load some data.</a></li>
+  <li><a href="#data-wrangling." id="toc-data-wrangling." class="nav-link" data-scroll-target="#data-wrangling.">Data Wrangling.</a></li>
+  <li><a href="#pruning-trees." id="toc-pruning-trees." class="nav-link" data-scroll-target="#pruning-trees.">Pruning Trees.</a></li>
+  <li><a href="#finally-plotting-the-tree." id="toc-finally-plotting-the-tree." class="nav-link" data-scroll-target="#finally-plotting-the-tree.">Finally Plotting the tree.</a></li>
+  </ul></li>
+  <li><a href="#our-final-plot" id="toc-our-final-plot" class="nav-link" data-scroll-target="#our-final-plot">Our Final Plot:</a>
+  <ul class="collapse">
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways:</a></li>
+  <li><a href="#future-directions" id="toc-future-directions" class="nav-link" data-scroll-target="#future-directions">Future Directions:</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Mortality to HPAI and Trees</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">analysis</div>
+    <div class="quarto-category">phylogenetics</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    A Short R document detailing a analysis on HPAI and mortality from a phylogenetic standpoint
+  </div>
+</div>
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author"><a href="https://jonathan-dain-42.github.io/The-Duck-Tapes/">Jonathan Dain</a> </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://www.theviruspluslab.com/">
+            VirusPlusLab at UMass Boston
+            </a>
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 30, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="wild-bird-mortality-and-highly-pathogenic-avian-influenza" class="level2">
+<h2 class="anchored" data-anchor-id="wild-bird-mortality-and-highly-pathogenic-avian-influenza">Wild Bird Mortality and Highly Pathogenic Avian Influenza</h2>
+<p>A ‘short’ R script by Jonathan Dain.</p>
+<p>Goal: We want to understand the mortality rates in while birds due to HPAI and how it relates to the underlying phylogeny that connects bird species. So let’s dive in.</p>
+<section id="load-some-packages." class="level3">
+<h3 class="anchored" data-anchor-id="load-some-packages.">Load some packages.</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(phytools,</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>               ggplot2,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>               ggthemes,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>               tidyverse,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>               geiger,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>               knitr,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               phangorn,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>               rethinking)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="load-some-data." class="level3">
+<h3 class="anchored" data-anchor-id="load-some-data.">Load some data.</h3>
+<p>Our data comes from multiple sources so I will load each one and give a brief overview of each. To start we need to get our raw data about mortality in wild birds due to HPAI. This data come from the USDA <a href="https://www.aphis.usda.gov/aphis/ourfocus/animalhealth/animal-disease-information/avian/avian-influenza/hpai-2022/2022-hpai-wild-birds">website</a>. It is a collection of observations of HPAI in wild birds. Admittedly this is a very sparse dataset and I know that alot of their observations are oppourtunistic rather than focused searching….but its what we got so lets put it to work.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>raw_usda <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="at">file =</span> <span class="st">"data/hpai-wild-birds (1).csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(raw_usda) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 6%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">State</th>
+<th style="text-align: left;">County</th>
+<th style="text-align: left;">Collection Date</th>
+<th style="text-align: left;">Date Detected</th>
+<th style="text-align: left;">HPAI Strain</th>
+<th style="text-align: left;">Bird Species</th>
+<th style="text-align: left;">WOAH Classification</th>
+<th style="text-align: left;">Sampling Method</th>
+<th style="text-align: left;">Submitting Agency</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">South Carolina</td>
+<td style="text-align: left;">Colleton</td>
+<td style="text-align: left;">12/30/2021</td>
+<td style="text-align: left;">01/13/2022</td>
+<td style="text-align: left;">EA H5N1</td>
+<td style="text-align: left;">American wigeon</td>
+<td style="text-align: left;">Wild bird</td>
+<td style="text-align: left;">Hunter harvest</td>
+<td style="text-align: left;">NWDP</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">South Carolina</td>
+<td style="text-align: left;">Colleton</td>
+<td style="text-align: left;">12/30/2021</td>
+<td style="text-align: left;">01/13/2022</td>
+<td style="text-align: left;">EA H5N1</td>
+<td style="text-align: left;">Blue-winged teal</td>
+<td style="text-align: left;">Wild bird</td>
+<td style="text-align: left;">Hunter harvest</td>
+<td style="text-align: left;">NWDP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">North Carolina</td>
+<td style="text-align: left;">Hyde</td>
+<td style="text-align: left;">12/30/2021</td>
+<td style="text-align: left;">01/12/2022</td>
+<td style="text-align: left;">EA H5N1</td>
+<td style="text-align: left;">Northern shoveler</td>
+<td style="text-align: left;">Wild bird</td>
+<td style="text-align: left;">Hunter harvest</td>
+<td style="text-align: left;">NWDP</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">North Carolina</td>
+<td style="text-align: left;">Hyde</td>
+<td style="text-align: left;">01/08/2022</td>
+<td style="text-align: left;">01/20/2022</td>
+<td style="text-align: left;">EA H5N1</td>
+<td style="text-align: left;">American wigeon</td>
+<td style="text-align: left;">Wild bird</td>
+<td style="text-align: left;">Hunter harvest</td>
+<td style="text-align: left;">NWDP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">North Carolina</td>
+<td style="text-align: left;">Hyde</td>
+<td style="text-align: left;">01/08/2022</td>
+<td style="text-align: left;">01/20/2022</td>
+<td style="text-align: left;">EA H5</td>
+<td style="text-align: left;">Gadwall</td>
+<td style="text-align: left;">Wild bird</td>
+<td style="text-align: left;">Hunter harvest</td>
+<td style="text-align: left;">NWDP</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">North Carolina</td>
+<td style="text-align: left;">Hyde</td>
+<td style="text-align: left;">01/08/2022</td>
+<td style="text-align: left;">01/20/2022</td>
+<td style="text-align: left;">EA H5</td>
+<td style="text-align: left;">Gadwall</td>
+<td style="text-align: left;">Wild bird</td>
+<td style="text-align: left;">Hunter harvest</td>
+<td style="text-align: left;">NWDP</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Ok the other dataset that we will need is a species lookup file that I have made for replacing common names with species names. It takes as input a common name - often poorly spelled - and replaces it with the correctly spelled latin name. It can also add in some other useful bits which we will look at later.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Species_Lookup <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="st">"/Users/jonathandain/My_Files/My_Code/Species_Lookup_Sheet/Species_Lookup_20240323.rds"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Species_Lookup) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 10%">
+<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">alt.common.name</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">scientific.name</th>
+<th style="text-align: left;">enlish.name.ebird</th>
+<th style="text-align: left;">order</th>
+<th style="text-align: left;">family</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">african crowned crane</td>
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">balearica regulorum</td>
+<td style="text-align: left;">gray crowned-crane</td>
+<td style="text-align: left;">gruiformes</td>
+<td style="text-align: left;">gruidae (cranes)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">american black duck</td>
+<td style="text-align: left;">Dabbling duck</td>
+<td style="text-align: left;">anas rubripes</td>
+<td style="text-align: left;">american black duck</td>
+<td style="text-align: left;">anseriformes</td>
+<td style="text-align: left;">anatidae (ducks, geese, and waterfowl)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">american blue-winged teal</td>
+<td style="text-align: left;">Dabbling duck</td>
+<td style="text-align: left;">spatula discors</td>
+<td style="text-align: left;">blue-winged teal</td>
+<td style="text-align: left;">anseriformes</td>
+<td style="text-align: left;">anatidae (ducks, geese, and waterfowl)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">american coot</td>
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">fulica americana</td>
+<td style="text-align: left;">american coot</td>
+<td style="text-align: left;">gruiformes</td>
+<td style="text-align: left;">rallidae (rails, gallinules, and coots)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">american crow</td>
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">corvus brachyrhynchos</td>
+<td style="text-align: left;">american crow</td>
+<td style="text-align: left;">passeriformes</td>
+<td style="text-align: left;">corvidae (crows, jays, and magpies)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">american green-winged teal</td>
+<td style="text-align: left;">Dabbling duck</td>
+<td style="text-align: left;">anas crecca</td>
+<td style="text-align: left;">green-winged teal</td>
+<td style="text-align: left;">anseriformes</td>
+<td style="text-align: left;">anatidae (ducks, geese, and waterfowl)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Finally as you might be wondering we need a bird phylogenetic tree! Thankfully the hard work of actually producing a bird tree has been done for us by the lovely people at <a href="https://birdtree.org/">BirdTree</a>, we just get to reap the benefits.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>allbirdtree <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="st">"data/allbirdtree.rds"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#note this is a massive multiphylo object so it may take a smidge of time to load.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ok now that our data is loaded we can move onto some data wrangling. Which is the second most fun part of any research question.</p>
+</section>
+<section id="data-wrangling." class="level3">
+<h3 class="anchored" data-anchor-id="data-wrangling.">Data Wrangling.</h3>
+<p>Ok first we need to do some data wrangling to make this USDA data usable.let’s first deal with the getting a sense of the data and if these birds are alive or dead when sampled. In other words what is the disease phenotype.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">### make a copy of the data</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> raw_usda <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_all</span>(<span class="at">.funs =</span> tolower) <span class="co">#make the names lowercase</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">### look at the sampling methods as levels</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">as.factor</span>(<span class="at">x =</span> d<span class="sc">$</span><span class="st">`</span><span class="at">Sampling Method</span><span class="st">`</span>)) <span class="sc">|&gt;</span> <span class="fu">kable</span>(<span class="at">col.names =</span> <span class="st">'Sampling Method'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Sampling Method</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">agency harvest</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hunter harvest</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">live bird</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">morbidity/mortality</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>Ok here lies one of the key assumptions I am going to make about this dataset. Given that the hunter harvested and agency harvested birds were likely out moving/behaving naturally prior to their “removal” I think it is fair to assume that these birds did not exhibit any symptomatic behavior of HPAI. That is also true for the live birds.</em></p>
+<p><em>This is of course opposed to the birds in the “morbidity/mortality” group which likely did exhibit symptoms of HPAI.</em></p>
+<p>We are going to want to label the two harvest and live bird methods as “healthy/alive birds” and then the mortality birds as ‘dead’.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#to do that we need to get some indices. </span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>hunt <span class="ot">&lt;-</span> <span class="fu">which</span>(d<span class="sc">$</span><span class="st">`</span><span class="at">Sampling Method</span><span class="st">`</span><span class="sc">==</span><span class="st">"hunter harvest"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>live <span class="ot">&lt;-</span> <span class="fu">which</span>(d<span class="sc">$</span><span class="st">`</span><span class="at">Sampling Method</span><span class="st">`</span><span class="sc">==</span><span class="st">"live bird"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>agent <span class="ot">&lt;-</span> <span class="fu">which</span>(d<span class="sc">$</span><span class="st">`</span><span class="at">Sampling Method</span><span class="st">`</span><span class="sc">==</span><span class="st">"agency harvest"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>dead <span class="ot">&lt;-</span> <span class="fu">which</span>(d<span class="sc">$</span><span class="st">`</span><span class="at">Sampling Method</span><span class="st">`</span><span class="sc">==</span><span class="st">'morbidity/mortality'</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#now we just need a status column</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">status=</span><span class="st">"NA"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#now we can just manually change these to what we want. </span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>status[hunt] <span class="ot">&lt;-</span> <span class="st">"alive"</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>status[live] <span class="ot">&lt;-</span> <span class="st">"alive"</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>status[agent] <span class="ot">&lt;-</span> <span class="st">'alive'</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>d<span class="sc">$</span>status[dead] <span class="ot">&lt;-</span> <span class="st">"symptomatic"</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#just double check our work.</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">as.factor</span>(<span class="at">x =</span> d<span class="sc">$</span>status)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "alive"       "symptomatic"</code></pre>
+</div>
+</div>
+<p>Ok now we can trim down to the data we would like and do a few edits. I changed the output of this next code chunk to FALSE, but really all I am doing is trimming down to the columns that I want, removing a single case of NA and making the common names lower case.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ok sweet so lets just trim our data a little</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">`</span><span class="at">HPAI Strain</span><span class="st">`</span>,<span class="st">`</span><span class="at">Date Detected</span><span class="st">`</span>,<span class="st">`</span><span class="at">Bird Species</span><span class="st">`</span>,status)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># unique(d$`HPAI Strain`) - This shows a single "NA"</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' there are alot of different strains but one is NA let's remove that. </span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">is.na</span>(d<span class="sc">$</span><span class="st">`</span><span class="at">HPAI Strain</span><span class="st">`</span>))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d[<span class="sc">-</span><span class="dv">674</span>,] <span class="co">#remove by negative indexing</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="do">### Let's add our species names to this dataset. </span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">|&gt;</span> </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sci.name=</span><span class="st">"NA"</span>,<span class="st">`</span><span class="at">Bird Species</span><span class="st">`</span><span class="ot">=</span><span class="fu">tolower</span>(<span class="st">`</span><span class="at">Bird Species</span><span class="st">`</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can actually replace the common names with our species name to make a clean and tidy data set. We are going to do that with a four loop that I built to interface with our species lookup sheet.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#lets change some names with my function from the species lookup</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(d)){ <span class="co">#loops through the rows</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  host <span class="ot">&lt;-</span> d<span class="sc">$</span><span class="st">`</span><span class="at">Bird Species</span><span class="st">`</span>[i] <span class="co">#finds the host name </span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  host</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (host <span class="sc">%in%</span> Species_Lookup<span class="sc">$</span>alt.common.name){ <span class="co">#checks to see if it's in the data</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">which</span>(Species_Lookup<span class="sc">$</span>alt.common.name<span class="sc">==</span>host) <span class="co">#gets an index</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    y</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    d<span class="sc">$</span>sci.name[i] <span class="ot">&lt;-</span> Species_Lookup<span class="sc">$</span>scientific.name[y] <span class="co">#replaces it with a species</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    d<span class="sc">$</span>sci.name[i]</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#unique(d$sci.name) #look for any NA's</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#Check to make sure that all the values go through.</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sci.name<span class="sc">==</span><span class="st">"NA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 0 × 5
+# ℹ 5 variables: HPAI Strain &lt;chr&gt;, Date Detected &lt;chr&gt;, Bird Species &lt;chr&gt;,
+#   status &lt;chr&gt;, sci.name &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>Nice it looks like we did not get any NA’s which can sometimes happen if there is a new mispelling of a common name that needs to be added to the lookup file. Here we seem to be good so we can continue.</p>
+<p>We should note however that some of these ‘species’ names are note real but rather have something like ‘finch spp’ for example. This is because the common name was not identifiable with a true species. Because we are looking at species level data we need to make sure that we only have true species in our dataset so we can remove them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' lets remove them by filtering out the string that have </span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' the pattern " spp"</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>d <span class="sc">|&gt;</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">str_detect</span>(sci.name,<span class="at">pattern =</span> <span class="st">" spp"</span>)) <span class="ot">-&gt;</span> d.clean</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># that was alot of work let's save the progress</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">#saveRDS(object = d.clean,file = "data/d.clean_20240328.rds")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The final step in our data wrangling is getting our actual trait data. So far all we have done is rearange some columns and fix some names. Lets get some actual data. To do that we are going to make use of the fact that you can group things by species name and then summarise the results. Lets pivot that data into a format where the rows are species rather than observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>d.trait <span class="ot">&lt;-</span> d.clean <span class="sc">%&gt;%</span> <span class="co">#get the data</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sci.name, status) <span class="sc">%&gt;%</span> <span class="co">#group it </span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span> <span class="co">#count it!</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> status, <span class="at">values_from =</span> n, <span class="at">values_fill =</span> <span class="dv">0</span>) <span class="co">#pivot it</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d.trait, <span class="at">n=</span><span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">sci.name</th>
+<th style="text-align: right;">symptomatic</th>
+<th style="text-align: right;">alive</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">accipiter cooperii</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">accipiter striatus</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Now we can calculate mortality and tolerance from this data!</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>d.trait <span class="ot">&lt;-</span> d.trait <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">total_cases=</span>symptomatic<span class="sc">+</span>alive) <span class="sc">|&gt;</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">tolerance=</span>alive<span class="sc">/</span>total_cases,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="at">mortality=</span>symptomatic<span class="sc">/</span>total_cases)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d.trait,<span class="at">n=</span><span class="dv">5</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 34%">
+<col style="width: 15%">
+<col style="width: 7%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">sci.name</th>
+<th style="text-align: right;">symptomatic</th>
+<th style="text-align: right;">alive</th>
+<th style="text-align: right;">total_cases</th>
+<th style="text-align: right;">tolerance</th>
+<th style="text-align: right;">mortality</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">accipiter cooperii</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">1.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">accipiter striatus</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">1.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">aechmophorus occidentalis</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">1.0000000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">agelaius phoeniceus</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">1.0000000</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">aix sponsa</td>
+<td style="text-align: right;">88</td>
+<td style="text-align: right;">198</td>
+<td style="text-align: right;">286</td>
+<td style="text-align: right;">0.6923077</td>
+<td style="text-align: right;">0.3076923</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Amazing we now have a datafram that we can begin to ask some questions about. Let’s shift to thinking about the actual phylogenetic tree because having a multiphylo is not the same as having a single tree (its better but thats besides the point).</p>
+</section>
+<section id="pruning-trees." class="level3">
+<h3 class="anchored" data-anchor-id="pruning-trees.">Pruning Trees.</h3>
+<p>Ok in because this is a multiphylo we need to make a single maximum clade credibility tree before we do anything further. We can do that easily with the function mcc() in Phangorn.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="at">seed =</span> <span class="dv">700</span>) <span class="co">#just a see that I like. </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' I commented the below out for berevity but </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#' you can follow it along to see </span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#' what I did.</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># mcc.tree &lt;- mcc(x = sample(allbirdtree,size = 100,replace = F),</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co">#                 tree = T,</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="co">#                 rooted = T)</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># mcc.tree</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#saveRDS(object = mcc.tree,file = "data/mcc.tree.RDS")</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>mcc.tree <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="st">"data/mcc.tree.RDS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Awesome now we have a single tree - a single VERY large tree - that we can now trim to our taxa of interest. This is where those species names come in hand.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' nice now we have a tree! Unforunately it is way too many tips so we need to prune it. </span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>mcc.tree<span class="sc">$</span>tip.label <span class="ot">&lt;-</span> <span class="fu">tolower</span>(mcc.tree<span class="sc">$</span>tip.label) <span class="co">#just lowering the names case</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#pull out the names I want to keep</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>names <span class="ot">&lt;-</span> d.trait<span class="sc">$</span>sci.name</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>names <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(<span class="at">string =</span> names,<span class="at">pattern =</span> <span class="st">" "</span>,<span class="at">replacement =</span> <span class="st">"_"</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co">#pruned.mcc.tree &lt;- keep.tip(phy = mcc.tree,tip=names)</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#^ you would get an error if you ran keep.tip()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Oh noo we get an error! JK, I knew that was going to happen. There is a few problems with some of the scientific names. In reality this is a problem between eBird and BirdTree but I will let it slide for now. We can work around it and fix it. Let’s just get the names we need to fix and then adjust them.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#lets add a BirdTree/Avonet column </span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>d.trait <span class="ot">&lt;-</span> d.trait <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avonet.name=</span><span class="st">'NA'</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">#most of the names in sci.name are good but I there are a few to change. Let's do that and also make them lowercase</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>d.trait <span class="ot">&lt;-</span> d.trait <span class="sc">|&gt;</span> </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sci.name) <span class="sc">|&gt;</span> </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avonet.name=</span><span class="fu">str_replace</span>(<span class="at">string =</span> sci.name,<span class="at">pattern =</span> <span class="st">' '</span>,<span class="at">replacement =</span> <span class="st">'_'</span>))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co">#' let's see which of my names actually need to change. </span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>chk.d.trait <span class="ot">&lt;-</span> <span class="fu">name.check</span>(<span class="at">phy =</span> mcc.tree,<span class="at">data =</span> d.trait,<span class="at">data.names =</span> d.trait<span class="sc">$</span>avonet.name)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(chk.d.trait) <span class="co">#  Notice there are 28 taxa in my data that are not in my tree (yet)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>9860 taxa are present in the tree but not the data:
+    abeillia_abeillei,
+    abroscopus_albogularis,
+    abroscopus_schisticeps,
+    abroscopus_superciliaris,
+    aburria_aburri,
+    acanthagenys_rufogularis,
+    ....
+28 taxa are present in the data but not the tree:
+    anser_caerulescens,
+    anser_rossii,
+    antigone_canadensis,
+    ardea_alba,
+    ardenna_tenuirostris,
+    bubo_scandiacus,
+    ....
+
+To see complete list of mis-matched taxa, print object.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#lets pull out those names to look at, </span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>names.to.check <span class="ot">&lt;-</span> chk.d.trait<span class="sc">$</span>data_not_tree</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">#let's also get an indiex for those names to make them NA's </span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">which</span>(d.trait<span class="sc">$</span>avonet.name<span class="sc">%in%</span>names.to.check)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co">#lets replace these names to fix with NA's</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[index] <span class="ot">&lt;-</span> <span class="st">"NA"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ok so we have these names to fix, how are we actually going to fix them. Well I have run into this before on a prior project so I have this other dataset that I am going to load in just so I can steal the “BirdTree/Avonet” names from it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>bv_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"/Users/jonathandain/My_Files/My_UMB_Courses/BIO634_Phylogenetics/Final_Project/Report/BV_cleaned_12APR2023_v2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can replace the names with this dataset just like we did above with the species lookup file. By the way the eBird names of these two datasets match, how do I know that? Because I made it that way haha.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># replace the names with the BV.data</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>i<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(d.trait)){</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  host <span class="ot">&lt;-</span> d.trait<span class="sc">$</span>sci.name[i]</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  host</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  host <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="at">x =</span> host,<span class="at">pattern =</span> <span class="st">' '</span>,<span class="at">replacement =</span> <span class="st">'_'</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (host <span class="sc">%in%</span> bv_data<span class="sc">$</span>species){</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">which</span>(bv_data<span class="sc">$</span>species<span class="sc">==</span>host)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    y</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">unique</span>(bv_data<span class="sc">$</span>Avonet_name[y])</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    x</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>    d.trait<span class="sc">$</span>avonet.name[i] <span class="ot">&lt;-</span> x</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># data$sci.name[i]</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co">#lets see if this worked</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>d.trait <span class="sc">|&gt;</span> </span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(avonet.name<span class="sc">==</span><span class="st">"NA"</span>) <span class="sc">|&gt;</span> <span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 13%">
+<col style="width: 6%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">sci.name</th>
+<th style="text-align: right;">symptomatic</th>
+<th style="text-align: right;">alive</th>
+<th style="text-align: right;">total_cases</th>
+<th style="text-align: right;">tolerance</th>
+<th style="text-align: right;">mortality</th>
+<th style="text-align: left;">avonet.name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">antigone canadensis</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ardenna tenuirostris</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">charadrius nivosus</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">chroicocephalus philadelphia</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">circus hudsonius</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hydroprogne caspia</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">26</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">larus glaucoides thayeri</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">nannopterum brasilianum</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">spatula puna</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">thalasseus maximus</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">urile penicillatus</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Ok now it looks like there are just 11 names to fix instead of the 28 that there were before. Thats totally fine we can do that many by hand. We will tackle this by some simple indexing.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Ok so just these lat 11 need to be fixed. </span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>sci.name<span class="sc">==</span><span class="st">"antigone canadensis"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[<span class="dv">18</span>] <span class="ot">&lt;-</span> <span class="st">"grus_canadensis"</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>sci.name<span class="sc">==</span><span class="st">"ardenna tenuirostris"</span>)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[<span class="dv">22</span>] <span class="ot">&lt;-</span> <span class="st">"puffinus_tenuirostris"</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>sci.name<span class="sc">==</span><span class="st">"charadrius nivosus"</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[<span class="dv">59</span>] <span class="ot">&lt;-</span> <span class="st">"charadrius_alexandrinus"</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>sci.name<span class="sc">==</span><span class="st">"chroicocephalus philadelphia"</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[<span class="dv">61</span>] <span class="ot">&lt;-</span> <span class="st">"larus_philadelphia"</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>sci.name<span class="sc">==</span><span class="st">"circus hudsonius"</span>)</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[<span class="dv">62</span>] <span class="ot">&lt;-</span> <span class="st">"circus_cyaneus"</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>sci.name<span class="sc">==</span><span class="st">"hydroprogne caspia"</span>)</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[<span class="dv">88</span>] <span class="ot">&lt;-</span> <span class="st">"sterna_caspia"</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>sci.name<span class="sc">==</span><span class="st">"larus glaucoides thayeri"</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[<span class="dv">95</span>] <span class="ot">&lt;-</span> <span class="st">"larus_thayeri"</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>sci.name<span class="sc">==</span><span class="st">"nannopterum brasilianum"</span>)</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[<span class="dv">113</span>] <span class="ot">&lt;-</span> <span class="st">"phalacrocorax_brasilianus"</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>sci.name<span class="sc">==</span><span class="st">"spatula puna"</span>)</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[<span class="dv">147</span>] <span class="ot">&lt;-</span> <span class="st">"anas_puna"</span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>sci.name<span class="sc">==</span><span class="st">"thalasseus maximus"</span>)</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[<span class="dv">154</span>] <span class="ot">&lt;-</span> <span class="st">"sterna_maxima"</span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>sci.name<span class="sc">==</span><span class="st">"urile penicillatus"</span>)</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>avonet.name[<span class="dv">160</span>] <span class="ot">&lt;-</span> <span class="st">"phalacrocorax_penicillatus"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Amazing now we have all the right species names.</p>
+<p>Oh I forgot let’s say we wanted to also put in the order and family that these birds come from. We can also do that with our species lookup file. Let’s just do that as well while we are at it. I think it will come in handy later…..</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>d.trait <span class="ot">&lt;-</span> d.trait <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">type=</span><span class="st">"NA"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">order=</span><span class="st">"NA"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">family=</span><span class="st">"NA"</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#we can use the same four loop function format as above.</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(d.trait)){</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  host <span class="ot">&lt;-</span> d.trait<span class="sc">$</span>sci.name[i]</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  host</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  host <span class="ot">&lt;-</span> <span class="fu">str_replace</span>(<span class="at">string =</span> host,<span class="at">pattern =</span> <span class="st">"_"</span>,<span class="at">replacement =</span> <span class="st">" "</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  host</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (host <span class="sc">%in%</span> Species_Lookup<span class="sc">$</span>scientific.name){</span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">which</span>(Species_Lookup<span class="sc">$</span>scientific.name<span class="sc">==</span>host)</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>    y</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    type <span class="ot">&lt;-</span> <span class="fu">unique</span>(Species_Lookup<span class="sc">$</span>type[y])</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    type</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    d.trait<span class="sc">$</span>type[i] <span class="ot">&lt;-</span> type</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>    fam <span class="ot">&lt;-</span>  <span class="fu">unique</span>(Species_Lookup<span class="sc">$</span>family[y])</span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>    fam</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>    d.trait<span class="sc">$</span>family[i] <span class="ot">&lt;-</span> fam</span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>    order <span class="ot">&lt;-</span>  <span class="fu">unique</span>(Species_Lookup<span class="sc">$</span>order[y])</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>    order</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>    d.trait<span class="sc">$</span>order[i] <span class="ot">&lt;-</span> order</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a>    <span class="co"># data$sci.name[i]</span></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a><span class="co">#looks like there was one error with the thayers gull lets fix that!</span></span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>avonet.name<span class="sc">==</span><span class="st">"larus_thayeri"</span>)</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>order[<span class="dv">95</span>] <span class="ot">&lt;-</span> <span class="st">'charadriiformes'</span></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>family[<span class="dv">95</span>] <span class="ot">&lt;-</span> <span class="st">'laridae (gulls, terns, and skimmers)'</span></span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a><span class="co">#one more fix sorry. </span></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(d.trait<span class="sc">$</span>family<span class="sc">==</span><span class="st">"natidae (ducks, geese, and waterfowl)"</span>)</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>d.trait<span class="sc">$</span>family[<span class="dv">32</span>] <span class="ot">&lt;-</span> <span class="st">'anatidae (ducks, geese, and waterfowl)'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Alright few that took a while but now that we have all the names we can actually prune the tree and then get to plotting this yay.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>chk.d.trait <span class="ot">&lt;-</span> <span class="fu">name.check</span>(<span class="at">phy =</span> mcc.tree,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> d.trait,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data.names =</span> d.trait<span class="sc">$</span>avonet.name)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(chk.d.trait)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>9832 taxa are present in the tree but not the data:
+    abeillia_abeillei,
+    abroscopus_albogularis,
+    abroscopus_schisticeps,
+    abroscopus_superciliaris,
+    aburria_aburri,
+    acanthagenys_rufogularis,
+    ....
+
+To see complete list of mis-matched taxa, print object.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' ok let's prune the tree finally!</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>pruned.mcc.tree <span class="ot">&lt;-</span> <span class="fu">keep.tip</span>(<span class="at">phy =</span> mcc.tree,<span class="at">tip =</span> d.trait<span class="sc">$</span>avonet.name)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>pruned.mcc.tree</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Phylogenetic tree with 161 tips and 160 internal nodes.
+
+Tip labels:
+  dromaius_novaehollandiae, rhea_americana, callipepla_californica, meleagris_gallopavo, bonasa_umbellus, centrocercus_urophasianus, ...
+Node labels:
+  NA, 0.63, 1, 1, 1, 1, ...
+
+Rooted; includes branch lengths.</code></pre>
+</div>
+</div>
+<p>Looks like we finally have a tree. The last thing to do is make sure our data and the tree have the same order in terms of rows.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#one final thing let's make sure that it is in the right order</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>row_index <span class="ot">&lt;-</span> <span class="fu">match</span>(<span class="at">x =</span> pruned.mcc.tree<span class="sc">$</span>tip.label,<span class="at">table =</span> d.trait<span class="sc">$</span>avonet.name)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>row_index</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>d.trait[row_index,] <span class="ot">-&gt;</span> d.trait</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="co">#saveRDS(object = d.trait,file = "data/d.trait.clean_20240328.rds")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="finally-plotting-the-tree." class="level3">
+<h3 class="anchored" data-anchor-id="finally-plotting-the-tree.">Finally Plotting the tree.</h3>
+<p>Ok so now we can finally plot this thing. First I just want to chat briefly about what we are actually plotting. We are going to be using a function called contMap() from Phytools. What this will be doing is essentially using ancestral state reconstruction across the branches of the tree. We are trying to infer the changes in a continuous trait along the branches of a tree. What this will end up looking like in our case is a color gradient as the value for ‘mortality’ rate changes across the branches of the tree.</p>
+<p>Ok with that said - there is alot more to it - lets actually plot this tree.</p>
+<p>In order to plot this we need to extract our trait of interest into a named vector that we can pass to contMap to make the plot.</p>
+<section id="initial-plot-and-colors." class="level4">
+<h4 class="anchored" data-anchor-id="initial-plot-and-colors.">Initial Plot and Colors.</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#read in your cleaned data</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>d.trait <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="st">"data/d.trait.clean_20240328.rds"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">#d.trait |&gt; </span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#mutate(weighted_tol=mortality*total_cases) </span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">#pull the trait</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>mortality <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="at">object =</span>d.trait<span class="sc">$</span>mortality,<span class="at">nm =</span> d.trait<span class="sc">$</span>avonet.name)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="co">#make the base plot. </span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>mort_cMap <span class="ot">&lt;-</span> <span class="fu">contMap</span>(<span class="at">tree =</span> pruned.mcc.tree,<span class="at">x =</span> mortality,<span class="at">plot =</span> T,<span class="at">ftype=</span><span class="st">'off'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="2024-04-30_files/figure-html/Pulling out the trait and making the first plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Yay we have….well we have something. It is not a very good visualization but don’t worry we can make it so much better.</p>
+<p>Plotting for this type of a plot is going to be a really fun exercise in how well you know what is going on internally of a phylogenetic tree. Before we get there though lets mess with the colors a little bit to get a sense of which one we like the best.</p>
+<p>To do this we are going to use the setMap function to change the color scheme. Then I am going to visualize it without the legend to save space.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Lets make four different color schemes. </span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> mort_cMap<span class="sc">$</span>cols <span class="co"># the original ones from the above plot</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">rev</span>(mort_cMap<span class="sc">$</span>cols) <span class="co"># the reverse of those colors. </span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">grey.colors</span>(<span class="at">n =</span> <span class="dv">30</span>,<span class="at">start =</span> <span class="dv">0</span>) <span class="co"># a greyscale version cause I like that. </span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">hcl.colors</span>(<span class="at">n =</span> <span class="dv">25</span>,<span class="at">palette =</span> <span class="st">'Sunset'</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>e <span class="ot">&lt;-</span> <span class="fu">hcl.colors</span>(<span class="at">n =</span> <span class="dv">25</span>,<span class="at">palette =</span> <span class="st">'Geyser'</span>)</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="at">n =</span> <span class="dv">25</span>,<span class="at">palette =</span> <span class="st">'Plasma'</span>))</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="co">#now we can plot them</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>map_a <span class="ot">&lt;-</span> <span class="fu">setMap</span>(<span class="at">x =</span> mort_cMap,<span class="at">colors=</span>a)</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>map_b <span class="ot">&lt;-</span> <span class="fu">setMap</span>(<span class="at">x =</span> mort_cMap,<span class="at">colors=</span>b)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>map_c <span class="ot">&lt;-</span> <span class="fu">setMap</span>(<span class="at">x =</span> mort_cMap,<span class="at">colors=</span>c)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>map_d <span class="ot">&lt;-</span> <span class="fu">setMap</span>(<span class="at">x =</span> mort_cMap,<span class="at">colors=</span>d)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>map_e <span class="ot">&lt;-</span> <span class="fu">setMap</span>(<span class="at">x =</span> mort_cMap,<span class="at">colors=</span>e)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>map_f <span class="ot">&lt;-</span> <span class="fu">setMap</span>(<span class="at">x =</span> mort_cMap,<span class="at">colors=</span>f)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="co"># now lets plot them. </span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>),<span class="at">nrow =</span> <span class="dv">3</span>,<span class="at">ncol =</span> <span class="dv">2</span>,<span class="at">byrow=</span>T)</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="fu">layout</span>(<span class="at">mat =</span> M)</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(map_a,<span class="at">ftype=</span><span class="st">'off'</span>,<span class="at">legend=</span>F,<span class="at">outline=</span>F)</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(map_b,<span class="at">ftype=</span><span class="st">'off'</span>,<span class="at">legend=</span>F,<span class="at">outline=</span>F)</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(map_c,<span class="at">ftype=</span><span class="st">'off'</span>,<span class="at">legend=</span>F,<span class="at">outline=</span>F)</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(map_d,<span class="at">ftype=</span><span class="st">'off'</span>,<span class="at">legend=</span>F,<span class="at">outline=</span>F)</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(map_e,<span class="at">ftype=</span><span class="st">'off'</span>,<span class="at">legend=</span>F,<span class="at">outline=</span>F)</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(map_f,<span class="at">ftype=</span><span class="st">'off'</span>,<span class="at">legend=</span>F,<span class="at">outline=</span>F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="2024-04-30_files/figure-html/trying different colors-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Ok I like the red one, ‘Geyser’ and the ‘Sunset’ one. Lets make those and see what they look like when we add the rest of the bits and bobs.</p>
+<p>Ok so to make these presentable we need to do some really “sneaky” plotting of the phylogeny. Its really not all that sneaky but we are going to make use of the phylogenetic tree ‘under the hood’ as they say. We are going to use the internals of the tree to make something that is publication worth and that will serve as one of the intial figures on my dissertation.</p>
+</section>
+<section id="making-our-final-set-of-plots." class="level4">
+<h4 class="anchored" data-anchor-id="making-our-final-set-of-plots.">Making our final set of plots.</h4>
+<p>First we need to add yet another row to our data set. Just a row to indicate sample size. We want this because this dataset is so sparse we want to know where we can ‘trust’ our analysis and where we might need to be a little skeptical. Adding this additional layer of information onto our tree also means we will need to do a little more sneaky plotting to add it but I will explain as I go. If you would like more details and so I give credit to the author of this hack you can see this <a href="http://blog.phytools.org/2024/03/hacky-trick-to-show-discrete-and.html">blog</a> post by Dr.&nbsp;Liam Revell the author of Phytools.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#add the colum and make a plotting tibble</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>plotting <span class="ot">&lt;-</span> d.trait <span class="sc">|&gt;</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">size=</span><span class="fu">ifelse</span>(total_cases<span class="sc">&gt;=</span><span class="dv">2</span>,<span class="st">'n&gt;2'</span>,<span class="st">'n&lt;2'</span>))</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>plotting <span class="ot">&lt;-</span> plotting <span class="sc">|&gt;</span> </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">size=</span><span class="fu">as.factor</span>(size)) <span class="co">#just make it a factor</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>plotting <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(plotting) </span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co">#we make the tibble a dataframe because that is </span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="co">#what phytools likes.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ok lets adjust and make this work.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>h<span class="ot">&lt;-</span><span class="fu">max</span>(<span class="fu">nodeHeights</span>(mort_cMap<span class="sc">$</span>tree)) <span class="co">#gets the max height of the tree</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>sample.size<span class="ot">&lt;-</span>mort_cMap<span class="sc">$</span>tree <span class="co">#makes a new tree to edit. </span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>sample.size<span class="sc">$</span>edge.length[</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">which</span>(sample.size<span class="sc">$</span>edge[,<span class="dv">2</span>]<span class="sc">&lt;=</span><span class="fu">Ntip</span>(sample.size))]<span class="ot">&lt;-</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  sample.size<span class="sc">$</span>edge.length[</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">which</span>(sample.size<span class="sc">$</span>edge[,<span class="dv">2</span>]<span class="sc">&lt;=</span><span class="fu">Ntip</span>(sample.size))]<span class="sc">+</span><span class="fl">0.07</span><span class="sc">*</span>h</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a><span class="co"># ^ The above code piece just extends the tip length of the tree</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>levs1<span class="ot">&lt;-</span><span class="fu">levels</span>(<span class="fu">as.factor</span>(plotting<span class="sc">$</span>size)) <span class="co">#pulls factors</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>sample.size<span class="ot">&lt;-</span><span class="fu">paintSubTree</span>(sample.size,<span class="fu">Ntip</span>(sample.size)<span class="sc">+</span><span class="dv">1</span>,<span class="st">"t"</span>)</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="co"># ^ This paints the tree transparent.</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(plotting) <span class="ot">&lt;-</span> plotting<span class="sc">$</span>avonet.name </span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a><span class="co"># ^ This gets the rownames on the data frame</span></span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(plotting)){</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>  tip<span class="ot">&lt;-</span><span class="fu">which</span>(mort_cMap<span class="sc">$</span>tree<span class="sc">$</span>tip.label<span class="sc">==</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>               <span class="fu">rownames</span>(plotting)[i])</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>  tip</span>
+<span id="cb31-24"><a href="#cb31-24" aria-hidden="true" tabindex="-1"></a>  sample.size<span class="ot">&lt;-</span><span class="fu">paintSubTree</span>(sample.size,<span class="at">node=</span>tip,</span>
+<span id="cb31-25"><a href="#cb31-25" aria-hidden="true" tabindex="-1"></a>                         <span class="at">state=</span>levs1[plotting[i,<span class="st">"size"</span>]],</span>
+<span id="cb31-26"><a href="#cb31-26" aria-hidden="true" tabindex="-1"></a>                         <span class="at">stem=</span>(<span class="fl">0.05</span><span class="sc">*</span>h)<span class="sc">/</span>sample.size<span class="sc">$</span>edge.length[</span>
+<span id="cb31-27"><a href="#cb31-27" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">which</span>(sample.size<span class="sc">$</span>edge[,<span class="dv">2</span>]<span class="sc">==</span>tip)])</span>
+<span id="cb31-28"><a href="#cb31-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-29"><a href="#cb31-29" aria-hidden="true" tabindex="-1"></a><span class="co"># ^ This paints the tips of my tree with</span></span>
+<span id="cb31-30"><a href="#cb31-30" aria-hidden="true" tabindex="-1"></a><span class="co"># the color of the sample size. </span></span>
+<span id="cb31-31"><a href="#cb31-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-32"><a href="#cb31-32" aria-hidden="true" tabindex="-1"></a>cols1<span class="ot">&lt;-</span><span class="fu">setNames</span>(<span class="fu">c</span>(<span class="st">"transparent"</span>,<span class="st">"black"</span>,<span class="st">"grey"</span>),</span>
+<span id="cb31-33"><a href="#cb31-33" aria-hidden="true" tabindex="-1"></a>                <span class="fu">c</span>(<span class="st">"t"</span>,levs1))</span>
+<span id="cb31-34"><a href="#cb31-34" aria-hidden="true" tabindex="-1"></a><span class="co"># ^ This just colors the tips, and body of the tree</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ok that all looks rather convoluted and complex but it boils down to we basically added some length to the tips of our tree and then painted those tips based on the discrete character that we wanted to. In our case we make them grey if they have low sample size and black of they have a better sample size.</p>
+<p>Ok so not to actually plot this the way we want with the sample size and all the fun colors we need to do one key thing. Plot the tree without plotting it. Yup we need to get the size of the space that the tree takes up with these new longer tips and then plot another tree on top of it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot to get x and y lims of the space. </span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mort_cMap,<span class="at">type=</span><span class="st">"arc"</span>,<span class="at">ftype=</span><span class="st">"i"</span>,<span class="at">arc_height=</span><span class="fl">0.5</span><span class="sc">*</span><span class="fl">1.05</span>,<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">fsize=</span><span class="fl">0.6</span>,<span class="at">offset=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pp<span class="ot">&lt;-</span><span class="fu">get</span>(<span class="st">"last_plot.phylo"</span>,<span class="at">envir=</span>.PlotPhyloEnv)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ^ this pulls those limits</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>garbage <span class="ot">&lt;-</span> <span class="fu">dev.off</span>()</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ^this removes the plot made. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot for real</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>mort_cMap <span class="ot">&lt;-</span> <span class="fu">setMap</span>(mort_cMap,<span class="at">colors=</span>c)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot base tree first</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="co"># note without labels</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">lend=</span><span class="dv">3</span>)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mort_cMap,<span class="at">type=</span><span class="st">"arc"</span>,</span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ftype=</span><span class="st">"off"</span>,</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">arc_height=</span><span class="fl">0.5</span><span class="sc">*</span><span class="fl">1.05</span>,</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">add=</span><span class="cn">TRUE</span>,</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd=</span><span class="dv">3</span>,</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">fsize=</span><span class="fl">0.6</span>,</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span>pp<span class="sc">$</span>x.lim,</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim=</span>pp<span class="sc">$</span>y.lim,</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend=</span>F)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a><span class="co"># now plot the labels and sample size. </span></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sample.size,</span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>     cols1,</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">"arc"</span>,</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">arc_height=</span><span class="fl">0.5</span><span class="sc">*</span><span class="fl">1.05</span>,</span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a>     <span class="at">ftype=</span><span class="st">"i"</span>,</span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd=</span><span class="dv">5</span>,</span>
+<span id="cb34-24"><a href="#cb34-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">fsize=</span><span class="fl">0.6</span>,</span>
+<span id="cb34-25"><a href="#cb34-25" aria-hidden="true" tabindex="-1"></a>     <span class="at">add=</span>T,</span>
+<span id="cb34-26"><a href="#cb34-26" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span>pp<span class="sc">$</span>x.lim,</span>
+<span id="cb34-27"><a href="#cb34-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim=</span>pp<span class="sc">$</span>y.lim,</span>
+<span id="cb34-28"><a href="#cb34-28" aria-hidden="true" tabindex="-1"></a>     <span class="at">offset=</span><span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="2024-04-30_files/figure-html/test plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Wow that looks so much better but what if we wanted to add some clade labels and a legend for the black and white, oh and a color bar. Well that is easy enough. Let’s grab out clade labels first.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="do">### add some clade labels. </span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>ans_node <span class="ot">&lt;-</span> <span class="fu">getMRCA</span>(<span class="at">phy =</span> mort_cMap<span class="sc">$</span>tree,<span class="at">tip =</span> d.trait[d.trait<span class="sc">$</span>order<span class="sc">==</span><span class="st">"anseriformes"</span>,]<span class="sc">$</span>avonet.name)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co">#ans_node</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co">#get the node for all charadriiformes</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>char_node <span class="ot">&lt;-</span> <span class="fu">getMRCA</span>(<span class="at">phy =</span> mort_cMap<span class="sc">$</span>tree,<span class="at">tip =</span> d.trait[d.trait<span class="sc">$</span>order<span class="sc">==</span><span class="st">"charadriiformes"</span>,]<span class="sc">$</span>avonet.name)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co">#char_node</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>clade_nodes <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">group=</span><span class="fu">c</span>(<span class="st">'anseriformes'</span>,<span class="st">'charadriiformes'</span>),<span class="at">node=</span><span class="fu">c</span>(ans_node,char_node))</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="co"># arc.cladelabels(tree = pruned.mcc.tree,"Anseriformes",node = clade_nodes$node[1],col="black",lab.offset=1.07,ln.offset=1.04,mark.node=F,xlim=pp$x.lim,ylim=pp$y.lim)</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a><span class="co"># arc.cladelabels(tree = pruned.mcc.tree,"Charadriiformes",node = clade_nodes$node[2],col="black",lab.offset=1.07,ln.offset=1.04,mark.node=F)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s plot it once again but add in the clade labels and the legends.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#plot for real</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>mort_cMap <span class="ot">&lt;-</span> <span class="fu">setMap</span>(mort_cMap,<span class="at">colors=</span>f)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot base tree first</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># note without labels</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">lend=</span><span class="dv">3</span>,<span class="at">bg=</span><span class="st">"white"</span>,<span class="at">mar=</span><span class="fu">c</span>(<span class="fl">0.1</span>,<span class="fl">0.1</span>,<span class="fl">0.1</span>,<span class="fl">0.1</span>))</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mort_cMap,<span class="at">type=</span><span class="st">"arc"</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ftype=</span><span class="st">"off"</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">arc_height=</span><span class="fl">0.5</span><span class="sc">*</span><span class="fl">1.05</span>,</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">add=</span><span class="cn">TRUE</span>,</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd=</span><span class="dv">4</span>,</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">fsize=</span><span class="fl">0.6</span>,</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span>pp<span class="sc">$</span>x.lim,</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim=</span>pp<span class="sc">$</span>y.lim,<span class="at">legend=</span>F,<span class="at">outline=</span>T)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a><span class="co"># now plot the labels and sample size. </span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sample.size,</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>     cols1,</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">"arc"</span>,</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">arc_height=</span><span class="fl">0.5</span><span class="sc">*</span><span class="fl">1.05</span>,</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">ftype=</span><span class="st">"i"</span>,</span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>     <span class="at">lwd=</span><span class="dv">5</span>,</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a>     <span class="at">fsize=</span><span class="fl">0.6</span>,</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">add=</span>T,</span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span>pp<span class="sc">$</span>x.lim,</span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim=</span>pp<span class="sc">$</span>y.lim,</span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">offset=</span><span class="dv">15</span>)</span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a><span class="co"># add clade labels</span></span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a><span class="fu">arc.cladelabels</span>(<span class="at">tree =</span> pruned.mcc.tree,<span class="st">"Anseriformes"</span>,<span class="at">node =</span> clade_nodes<span class="sc">$</span>node[<span class="dv">1</span>],<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lab.offset=</span><span class="fl">1.07</span>,<span class="at">ln.offset=</span><span class="fl">1.04</span>,<span class="at">mark.node=</span>F,<span class="at">xlim=</span>pp<span class="sc">$</span>x.lim,<span class="at">ylim=</span>pp<span class="sc">$</span>y.lim)</span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a><span class="fu">arc.cladelabels</span>(<span class="at">tree =</span> pruned.mcc.tree,<span class="st">"Charadriiformes"</span>,<span class="at">node =</span> clade_nodes<span class="sc">$</span>node[<span class="dv">2</span>],<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lab.offset=</span><span class="fl">1.07</span>,<span class="at">ln.offset=</span><span class="fl">1.04</span>,<span class="at">mark.node=</span>F)</span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a><span class="co"># add legend</span></span>
+<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>,levs1,<span class="at">lwd=</span><span class="dv">6</span>,<span class="at">col=</span>cols1[<span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>],</span>
+<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a>       <span class="at">title=</span><span class="st">"Sample Size"</span>)</span>
+<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a><span class="co"># add color bar.</span></span>
+<span id="cb36-39"><a href="#cb36-39" aria-hidden="true" tabindex="-1"></a><span class="fu">add.color.bar</span>(<span class="at">leg=</span><span class="dv">118</span>,<span class="at">cols=</span>mort_cMap<span class="sc">$</span>cols,<span class="at">title =</span> <span class="st">"Mortality Rate due to HPAI"</span>,</span>
+<span id="cb36-40"><a href="#cb36-40" aria-hidden="true" tabindex="-1"></a>              <span class="at">lims =</span> mort_cMap<span class="sc">$</span>lims,<span class="at">digits=</span><span class="dv">3</span>,<span class="at">fsize=</span><span class="fl">0.6</span>,<span class="at">x=</span><span class="sc">-</span><span class="dv">80</span>,<span class="at">y=</span><span class="dv">0</span>,<span class="at">prompt =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="2024-04-30_files/figure-html/make the final plot-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>What if we wanted to know the amount of phylogenetic signal that might be occuring here. We can do that with phylosig() using two different methods; Blomberg’s K and Pagel’s Lambda</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># dev.off() -&gt; garbage</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">phylosig</span>(<span class="at">tree =</span> mort_cMap<span class="sc">$</span>tree,<span class="at">x =</span> mortality,<span class="at">test =</span> T,<span class="at">method =</span> <span class="st">'K'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Phylogenetic signal K : 0.15881 
+P-value (based on 1000 randomizations) : 0.003 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">phylosig</span>(<span class="at">tree =</span> mort_cMap<span class="sc">$</span>tree,<span class="at">x =</span> mortality,<span class="at">test =</span> T,<span class="at">method =</span> <span class="st">'K'</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="2024-04-30_files/figure-html/check blomberg k-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">phylosig</span>(<span class="at">tree =</span> mort_cMap<span class="sc">$</span>tree, <span class="at">x=</span>mortality,<span class="at">test =</span> T,<span class="at">method =</span> <span class="st">"lambda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Phylogenetic signal lambda : 0.604644 
+logL(lambda) : 3.44939 
+LR(lambda=0) : 53.1951 
+P-value (based on LR test) : 3.02009e-13 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">phylosig</span>(<span class="at">tree =</span> mort_cMap<span class="sc">$</span>tree, <span class="at">x=</span>mortality,<span class="at">test =</span> T,<span class="at">method =</span> <span class="st">"lambda"</span>) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="2024-04-30_files/figure-html/check pagels lambda-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The Blomberg’s K suggests that while the actual value of K is small it is larger than what is expected under a null distribution given a tree of our configuration. We typically see this when you have rapid diversification or the trait is restricted to a single clade in the tree.</p>
+</section>
+</section>
+</section>
+<section id="our-final-plot" class="level2">
+<h2 class="anchored" data-anchor-id="our-final-plot">Our Final Plot:</h2>
+<p>Finally lets just plot the final tree one last time to really see it.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="Mort_Tree_20240401.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Mortality to HPAI Plotted on an Avian Tree</figcaption>
+</figure>
+</div>
+<section id="key-takeaways" class="level3">
+<h3 class="anchored" data-anchor-id="key-takeaways">Key Takeaways:</h3>
+<ul>
+<li>The majority of the tree is purple, indicating very high mortality due to HPAI.<br>
+</li>
+<li>The areas of yellow, indicating low mortality to HPAI are primarily restricted to members of the family ANATIDAE, which include our lovely friends the Mallard and American Black Duck.<br>
+</li>
+<li>While the “tolerance” to HPAI is likely to place a species into the “super-spreader” camp given that there are so many taxa that have high mortality there might be other “super-spreaders” that exhibit a vastly different phenotype than being asymptomatic.</li>
+</ul>
+</section>
+<section id="future-directions" class="level3">
+<h3 class="anchored" data-anchor-id="future-directions">Future Directions:</h3>
+<ul>
+<li>To answer that last point about alternatives to asymptomatic “super-spreaders”, I am planning on performing a bayesian phylodynamic assay to evaluate source/sink dynamics. This will tell me if the taxa that are colored purple are acting as sources “spreaders” or sinks. In short it will tell me if there really is another version of “super-spreader”.</li>
+</ul>
+<p>I hope that this script has been as helpful to you as it was to me. As always keep your eyes to the sky!</p>
+<p>Cheers, Jonathan Dain</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
