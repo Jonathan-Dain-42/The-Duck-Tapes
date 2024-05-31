@@ -1,0 +1,16 @@
+---
+title: "A Journey through the Graduate Research Fellowship Program"
+description: "My journey with the GRFP, lessons through the process"
+author:
+  - name: Jonathan Dain
+    url: https://jonathan-dain-42.github.io/The-Duck-Tapes/
+    affiliation: VirusPlusLab at UMass Boston
+    affiliation-url: https://www.theviruspluslab.com/
+date: 2024-05-01
+categories: [Thoughts] # self-defined categories
+draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+---
+
+Anyone entering graduate school will soon hear whispers of the imfamous graduate research fellowship program (GRFP) that the National Science Foundation funds every year. Whispers of the joys upon receiving the award, whispers of the hours spent writing for it, whispers of the fear of rejections. 
+
+Truth be told the GRFP is really a fantastic oppourtunity for early graduate students. 
