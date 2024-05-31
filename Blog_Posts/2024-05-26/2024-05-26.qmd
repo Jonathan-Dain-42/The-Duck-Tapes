@@ -14,6 +14,8 @@ lightbox: true
 
 <div style="text-align: justify">
 
+![Welcome to Appledore!](First_Pic.jpeg)
+
 ### Braving the Wall of Sound
 
 It was another hot, muggy day. We had been traversing the island all day heavy laden with cotton swabs, various sample vials, banding equipment, rebar cubes with wire fence siding, helmets oh, and of course gull sticks. Our target of course is the reason we needed such "sticks", which were nothing more than pieces of lobster traps with a plastic bottle duck tapped to the end of it. (See Figure 1 below). We were after the Great Black Backed Gull, the largest gull species in the world and which happily breeds in good numbers on this beautiful island. 
