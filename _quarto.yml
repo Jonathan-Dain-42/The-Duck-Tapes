@@ -12,6 +12,8 @@ website:
         text: About Me
       - href: posts.qmd
         text: My Blog
+      # - href: Photos.qmd
+      #   text: Photo Gallery
     tools: 
       - icon: github
         url: https://github.com/Jonathan-Dain-42/The-Duck-Tapes

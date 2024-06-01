@@ -652,7 +652,7 @@ The Blomberg's K suggests that while the actual value of K is small it is larger
 
 Finally lets just plot the final tree one last time to really see it.
 
-![Mortality to HPAI Plotted on an Avian Tree](Mort_Tree_20240401.png)
+![Mortality to HPAI Plotted on an Avian Tree](Mort_Tree_20240401.png){.lightbox}  
 
 ### Key Takeaways:
 
@@ -663,6 +663,7 @@ Finally lets just plot the final tree one last time to really see it.
 ### Future Directions:
 
 -   To answer that last point about alternatives to asymptomatic "super-spreaders", I am planning on performing a bayesian phylodynamic assay to evaluate source/sink dynamics. This will tell me if the taxa that are colored purple are acting as sources "spreaders" or sinks. In short it will tell me if there really is another version of "super-spreader".
+-   Additionally, it is important to keep in mind that this analysis is very hypothesis generating but needs to be paired with a more stringent study. As a professor noted with me during a meeting, we do not have the denominator of the testing quota the USDA needs each year. Without this we can't get a true measure of prevalence, which means we can't remove the probable duck bias that is likely here.
 
 I hope that this script has been as helpful to you as it was to me. As always keep your eyes to the sky!
 
