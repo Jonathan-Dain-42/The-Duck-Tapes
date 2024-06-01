@@ -12,3 +12,10 @@ draft: TRUE # setting this to `true` will prevent your post from appearing on yo
 lightbox: true
 ---
 
+<!-- Outline:  -->
+<!-- - Sunset pic with Gull flying -->
+<!-- - Introduce the Microbiome Piece -->
+<!-- - Introduce the Chicks -->
+<!-- - Share some pictures -->
+
+
