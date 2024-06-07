@@ -1,5 +1,6 @@
 ---
-title: "There Be Chicks!"
+title: "It's so fluffy I am gonna die!"
+subtitle: "Here Be Chicks..."
 description: "My 2024 adventures with fluffballs. A 5 minute read."
 author:
   - name: Jonathan Dain
@@ -19,3 +20,4 @@ lightbox: true
 <!-- - Share some pictures -->
 
 
+![Watch your step little fluffballs present](Gull_Crossing.jpeg)  
