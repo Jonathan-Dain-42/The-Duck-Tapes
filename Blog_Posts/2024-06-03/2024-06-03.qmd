@@ -7,7 +7,7 @@ author:
     url: https://jonathan-dain-42.github.io/The-Duck-Tapes/
     affiliation: VirusPlusLab at UMass Boston
     affiliation-url: https://www.theviruspluslab.com/
-date: 06-03-2024
+date: 06-28-2024
 categories: [Birding, Appledore] # self-defined categories
 draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
 lightbox: true
@@ -20,4 +20,8 @@ lightbox: true
 <!-- - Share some pictures -->
 
 
-![Watch your step little fluffballs present](Gull_Crossing.jpeg)  
+![Watch your step little fluffballs present](Gull_Crossing.jpeg){width=40%} 
+
+## Another trip to Appledore to hold chicks? COUNT ME IN!
+
+I am writing this after the fact when I could rest and recover from spending a wonderful 

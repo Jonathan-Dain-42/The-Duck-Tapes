@@ -8,7 +8,7 @@ author:
     affiliation-url: https://www.theviruspluslab.com/
 date: 06-27-2024
 categories: [phylogenetics] # self-defined categories
-draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+draft: FALSE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
 lightbox: TRUE
 ---
 
@@ -84,7 +84,7 @@ Well that is a lot of different things but I hope that you, my dear reader, migh
 
 Side Note: As you might be getting by now I am a little bit of a book dragon (I hoard books and then very slowly work my way through them lol).
 
-Until next time keep your eyes to the sky. 
+Until next time keep your eyes to the sky.
 
 Cheers,
 
