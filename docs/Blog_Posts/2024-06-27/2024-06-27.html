@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jonathan Dain">
+<meta name="dcterms.date" content="2024-06-27">
+<meta name="description" content="My curated list of resources for Bayesian phylogenetic and phylodynamic analysis">
 
-<title>The Duck Tapes - Welcome to The Duck Tapes</title>
+<title>The Duck Tapes - Phylogenetic Resources</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,22 +26,25 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -77,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">The Duck Tapes</span>
     </a>
   </div>
@@ -88,19 +94,19 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./posts.html"> 
+    <a class="nav-link" href="../../posts.html"> 
 <span class="menu-text">My Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./Photos.html"> 
+    <a class="nav-link" href="../../Photos.html"> 
 <span class="menu-text">Photo Gallery</span></a>
   </li>  
 </ul>
@@ -116,21 +122,63 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#some-context" id="toc-some-context" class="nav-link active" data-scroll-target="#some-context">Some Context:</a>
+  <ul class="collapse">
+  <li><a href="#on-the-field-of-phylogenetics" id="toc-on-the-field-of-phylogenetics" class="nav-link" data-scroll-target="#on-the-field-of-phylogenetics">On the field of Phylogenetics:</a></li>
+  <li><a href="#at-the-intersection-of-bayesian-statistics-and-phylogenetics" id="toc-at-the-intersection-of-bayesian-statistics-and-phylogenetics" class="nav-link" data-scroll-target="#at-the-intersection-of-bayesian-statistics-and-phylogenetics">At the intersection of Bayesian Statistics and Phylogenetics:</a></li>
+  <li><a href="#on-plotting-and-other-tools" id="toc-on-plotting-and-other-tools" class="nav-link" data-scroll-target="#on-plotting-and-other-tools">On Plotting and Other tools:</a></li>
+  <li><a href="#some-bonus-tools-and-books-for-coding" id="toc-some-bonus-tools-and-books-for-coding" class="nav-link" data-scroll-target="#some-bonus-tools-and-books-for-coding">Some bonus tools and books for coding:</a></li>
+  <li><a href="#in-summary" id="toc-in-summary" class="nav-link" data-scroll-target="#in-summary">In Summary:</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Welcome to The Duck Tapes</h1>
+<h1 class="title">Phylogenetic Resources</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">phylogenetics</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    My curated list of resources for Bayesian phylogenetic and phylodynamic analysis
+  </div>
 </div>
 
-
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author"><a href="https://jonathan-dain-42.github.io/The-Duck-Tapes/">Jonathan Dain</a> </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            <a href="https://www.theviruspluslab.com/">
+            VirusPlusLab at UMass Boston
+            </a>
+          </p>
+      </div>
+  </div>
 
 <div class="quarto-title-meta">
 
-    
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">June 27, 2024</p>
+    </div>
+  </div>
   
     
   </div>
@@ -140,17 +188,82 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Welcome, I am so glad you are here!</p>
+<style>
+body {
+text-align: justify}
+</style>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="Gull_Background.jpeg" class="img-fluid figure-img"></p>
-<figcaption>A Great Black-Back Gull in an Island Sunrise</figcaption>
+<p><a href="Black White Classic Book Style Quote Instagram Post.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" data-glightbox="description: .lightbox-desc-1" title="One of my favorite quotes"><img src="Black White Classic Book Style Quote Instagram Post.png" class="img-fluid figure-img" style="width:50.0%" alt="One of my favorite quotes"></a></p>
+<figcaption>One of my favorite quotes</figcaption>
 </figure>
 </div>
-<p>Please feel free to take a look around. Blog posts about my research can be found under the “My Blog” tab. Check out the “About Me” page to get to know me. “Photos” has a collection of fun pictures from the beautiful places that “virus-hunting” has taken me. Finally, the “Extras” page has a collection of links and posts from other areas of my life some of which are non-research related.</p>
-<p>Hope to see you around sometime and if you are in the Massachusetts area, I’d love to grab a coffee.</p>
+<section id="some-context" class="level1">
+<h1>Some Context:</h1>
+<p>Part of my dissertation involves the extensive use of viral genomes and methods of analyzing them to understand the spread of avian influenza in North America.</p>
+<p>I will be the first to admit that I did not enter graduate school as a master of phylogenetic methods. I have had to learn a lot in order to articulate and actually make progress on the ideas that I have set forth in my dissertation.</p>
+<p>One of my favorite quotes is by Isaac Newton which states “if I have seen further [than others], it is by standing on the shoulders of giants”.</p>
+<p>I have used that quote and the resultant ideology in so many areas of my life and this field of study is no exception. With that in mind here is a list of some of the resources (books, programs, tutorials) that I have used to see further than I could have seen by myself.</p>
+<section id="on-the-field-of-phylogenetics" class="level2">
+<h2 class="anchored" data-anchor-id="on-the-field-of-phylogenetics">On the field of Phylogenetics:</h2>
+<ul>
+<li><p><a href="https://lukejharmon.github.io/pcm/">Learning From Trees</a> by Luke Harmon. <u>An excellent book on learning the basics and theory in the field of phylogenetic comparative methods.</u></p></li>
+<li><p><a href="https://peerj.com/articles/16505/">Phylogenetic Comparative Methods in R</a> by Liam Revell and Luke Harmon. <u>An amazing R package that is constantly “evolving” and gaining new functions all the time. This package also makes plotting phylogenies wonderful</u></p></li>
+<li><p><a href="http://blog.phytools.org/">The Phytools Blog</a> by Liam Revell <u>An awesome way to learn more about working with the R package Phytools, in addition to keeping up to date with the new functions and tools</u></p></li>
+<li><p><a href="https://decodinggenomes.org/">Decoding Genomes: From Sequences to Phylodynamics</a> by Tanja Stadler, Carsten Magnus, Timothy Vaughan, Joëlle Barido-Sottani, Veronika Bošková, Jana S. Huisman, Jūlija Pečerska. <u>A recent book but from the intro chapters that I have read so far it is very approachable and informative. I love the idea of explaining the whole workflow.</u></p></li>
+<li><p><a href="https://academic.oup.com/book/26340">Molecular Evolution: A Statistical Approach</a> by Ziheng Yang. <u>This book is a deep dive into the work of phylogentic inference. I am using it to study for my Qualifying exams</u></p></li>
+<li><p><a href="https://www.amazon.com/Molecular-Evolution-Roderick-D-M-Page/dp/0865428891">Molecular Evolution: A Phylogenetic Approach</a> by Roderick D.M. Page and Edward C. Holmes. <u>Another great book on phylogenetics. Plus it was written by Dr.&nbsp;Holmes who is was my friends original PI.</u></p></li>
+</ul>
+</section>
+<section id="at-the-intersection-of-bayesian-statistics-and-phylogenetics" class="level2">
+<h2 class="anchored" data-anchor-id="at-the-intersection-of-bayesian-statistics-and-phylogenetics">At the intersection of Bayesian Statistics and Phylogenetics:</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="5dcadd45-1e63-4162-aa4b-a488a47a25d7_797x450.jpg" class="lightbox" data-gallery="quarto-lightbox-gallery-2" data-glightbox="description: .lightbox-desc-2" title="My BEAST users where you at?"><img src="5dcadd45-1e63-4162-aa4b-a488a47a25d7_797x450.jpg" class="img-fluid figure-img" alt="My BEAST users where you at?"></a></p>
+<figcaption>My BEAST users where you at?</figcaption>
+</figure>
+</div>
+<ul>
+<li><p><a href="https://beast.community/index.html">BEAST</a> Developed by Andrew Rambaut, Alexei Drummond, Daniel Ayres, Guy Baele, Philippe Lemey, and Marc Suchard. The Bayesian Evolutionary Analysis by Sampling Trees. A cross platform software for the Bayesian analysis of molecular sequences using MCMC. This website also has amazing tutorials*</p></li>
+<li><p><a href="https://www.beast2.org/">BEAST2</a> <u>A rewrite of BEAST1 with some additional integration in the R environment.</u></p></li>
+<li><p><a href="https://www.beast2.org/book/">BEAST Book</a> By Alexei J. Drummond and Remco R. Bouckaert. <u>A excellent book on the foundations of phylogenetics using BEAST. It also includes information for developing the software itself.</u></p></li>
+<li><p><a href="https://www.routledge.com/Bayesian-Phylogenetics-Methods-Algorithms-and-Applications/Chen-Kuo-Lewis/p/book/9781032340234">BAYESIAN PHYLOGENETICS Methods, Algorithms, and Applications</a> <u>Another great book I am working through now that digs into all things Bayesian and phylogenetics.</u></p></li>
+<li><p><a href="https://www.bayesrulesbook.com/">Bayes Rules</a> by Alicia A. Johnson, Miles Q. Ott, Mine Dogucu. <u>If you like tidyverse and want a different approach to learning Bayesian statistics then look no further. This is a great book</u></p></li>
+<li><p><a href="https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919">Statistical Rethinking</a> by Richard McElreath <u>I just read this book as part of a advanced bio-statistics course. It does a fantastic job at introducing learners to the theory and practice of Bayesian statistics</u></p></li>
+<li><p><a href="https://github.com/rmcelreath/stat_rethinking_2024">Statistical Rethinking Online Course</a> I just found out that McElreath posts his lectures online. This is a great resource.</p></li>
+</ul>
+</section>
+<section id="on-plotting-and-other-tools" class="level2">
+<h2 class="anchored" data-anchor-id="on-plotting-and-other-tools">On Plotting and Other tools:</h2>
+<ul>
+<li><p><a href="http://tree.bio.ed.ac.uk/software/figtree/">FigTree</a> <u>This software was designed originally to work with BEAST. It is very intuitive.</u></p></li>
+<li><p><a href="https://yulab-smu.top/treedata-book/index.html">Data Integration, Manipulation, and Visualization of Phylogenetic Trees</a> <u>This was a lifesaver when I came across it. It uses the grammar of graphics we are used to with packages like ggplot and implements them into phylogenetic trees!</u></p></li>
+</ul>
+</section>
+<section id="some-bonus-tools-and-books-for-coding" class="level2">
+<h2 class="anchored" data-anchor-id="some-bonus-tools-and-books-for-coding">Some bonus tools and books for coding:</h2>
+<p>These books are not related to the above but are useful for learning purposes.</p>
+<ul>
+<li><p><a href="https://r4ds.hadley.nz/">R for Data Science</a> <u>This will teach you how to do data science in R and set you up well</u></p></li>
+<li><p><a href="https://statistics4ecologists-v2.netlify.app/">Statistics for Ecologists</a> by John Fieberg. <u>This book is a wonderful review of statistics with a focus on applications in Ecology. I highly recommend, also the author is a really cool person</u></p></li>
+<li><p><a href="https://www.amazon.com/Where-Good-Ideas-Come-Innovation/dp/1594485380">Where Good Ideas Come From: The Natural History of Innovation</a> <u>I read portions of this book during the first year of my PhD. It changed the way I think about ideas and was very helpful.</u></p></li>
+</ul>
+</section>
+<section id="in-summary" class="level2">
+<h2 class="anchored" data-anchor-id="in-summary">In Summary:</h2>
+<p>Well that is a lot of different things but I hope that you, my dear reader, might find something useful here. I hope that you can use these in your own scientific career or at the very least get a little peak into the wild world that is viral phylogenetics.</p>
+<p>Side Note: As you might be getting by now I am a little bit of a book dragon (I hoard books and then very slowly work my way through them lol).</p>
+<p>Until next time keep your eyes to the sky.</p>
+<p>Cheers,</p>
+<p>Jonathan Dain</p>
 
 
+<div class="hidden" aria-hidden="true">
+<span class="glightbox-desc lightbox-desc-1">One of my favorite quotes</span>
+<span class="glightbox-desc lightbox-desc-2">My BEAST users where you at?</span>
+</div>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -595,6 +708,31 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});
+window.onload = () => {
+  lightboxQuarto.on('slide_before_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    const href = trigger.getAttribute('href');
+    if (href !== null) {
+      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+      if (imgEl !== null) {
+        const srcAttr = imgEl.getAttribute("src");
+        if (srcAttr && srcAttr.startsWith("data:")) {
+          slideConfig.href = srcAttr;
+        }
+      }
+    } 
+  });
+
+  lightboxQuarto.on('slide_after_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    if (window.Quarto?.typesetMath) {
+      window.Quarto.typesetMath(slideNode);
+    }
+  });
+
+};
+          </script>
 
 
 

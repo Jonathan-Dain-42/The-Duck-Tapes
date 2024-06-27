@@ -1,0 +1,91 @@
+---
+title: "Phylogenetic Resources"
+description: "My curated list of resources for Bayesian phylogenetic and phylodynamic analysis"
+author:
+  - name: Jonathan Dain
+    url: https://jonathan-dain-42.github.io/The-Duck-Tapes/
+    affiliation: VirusPlusLab at UMass Boston
+    affiliation-url: https://www.theviruspluslab.com/
+date: 06-27-2024
+categories: [phylogenetics] # self-defined categories
+draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+lightbox: TRUE
+---
+
+```{=html}
+<style>
+body {
+text-align: justify}
+</style>
+```
+![One of my favorite quotes](Black%20White%20Classic%20Book%20Style%20Quote%20Instagram%20Post.png){width="50%"}
+
+# Some Context:
+
+Part of my dissertation involves the extensive use of viral genomes and methods of analyzing them to understand the spread of avian influenza in North America.
+
+I will be the first to admit that I did not enter graduate school as a master of phylogenetic methods. I have had to learn a lot in order to articulate and actually make progress on the ideas that I have set forth in my dissertation.
+
+One of my favorite quotes is by Isaac Newton which states "if I have seen further \[than others\], it is by standing on the shoulders of giants".
+
+I have used that quote and the resultant ideology in so many areas of my life and this field of study is no exception. With that in mind here is a list of some of the resources (books, programs, tutorials) that I have used to see further than I could have seen by myself.
+
+## On the field of Phylogenetics:
+
+-   [Learning From Trees](https://lukejharmon.github.io/pcm/) by Luke Harmon. [An excellent book on learning the basics and theory in the field of phylogenetic comparative methods.]{.underline}
+
+-   [Phylogenetic Comparative Methods in R](https://peerj.com/articles/16505/) by Liam Revell and Luke Harmon. [An amazing R package that is constantly "evolving" and gaining new functions all the time. This package also makes plotting phylogenies wonderful]{.underline}
+
+-   [The Phytools Blog](http://blog.phytools.org/) by Liam Revell [An awesome way to learn more about working with the R package Phytools, in addition to keeping up to date with the new functions and tools]{.underline}
+
+-   [Decoding Genomes: From Sequences to Phylodynamics](https://decodinggenomes.org/) by Tanja Stadler, Carsten Magnus, Timothy Vaughan, Joëlle Barido-Sottani, Veronika Bošková, Jana S. Huisman, Jūlija Pečerska. [A recent book but from the intro chapters that I have read so far it is very approachable and informative. I love the idea of explaining the whole workflow.]{.underline}
+
+-   [Molecular Evolution: A Statistical Approach](https://academic.oup.com/book/26340) by Ziheng Yang. [This book is a deep dive into the work of phylogentic inference. I am using it to study for my Qualifying exams]{.underline}
+
+-   [Molecular Evolution: A Phylogenetic Approach](https://www.amazon.com/Molecular-Evolution-Roderick-D-M-Page/dp/0865428891) by Roderick D.M. Page and Edward C. Holmes. [Another great book on phylogenetics. Plus it was written by Dr. Holmes who is was my friends original PI.]{.underline}
+
+## At the intersection of Bayesian Statistics and Phylogenetics:
+
+![My BEAST users where you at?](5dcadd45-1e63-4162-aa4b-a488a47a25d7_797x450.jpg)
+
+-   [BEAST](https://beast.community/index.html) Developed by Andrew Rambaut, Alexei Drummond, Daniel Ayres, Guy Baele, Philippe Lemey, and Marc Suchard. The Bayesian Evolutionary Analysis by Sampling Trees. A cross platform software for the Bayesian analysis of molecular sequences using MCMC. This website also has amazing tutorials\*
+
+-   [BEAST2](https://www.beast2.org/) [A rewrite of BEAST1 with some additional integration in the R environment.]{.underline}
+
+-   [BEAST Book](https://www.beast2.org/book/) By Alexei J. Drummond and Remco R. Bouckaert. [A excellent book on the foundations of phylogenetics using BEAST. It also includes information for developing the software itself.]{.underline}
+
+-   [BAYESIAN PHYLOGENETICS Methods, Algorithms, and Applications](https://www.routledge.com/Bayesian-Phylogenetics-Methods-Algorithms-and-Applications/Chen-Kuo-Lewis/p/book/9781032340234) [Another great book I am working through now that digs into all things Bayesian and phylogenetics.]{.underline}
+
+-   [Bayes Rules](https://www.bayesrulesbook.com/) by Alicia A. Johnson, Miles Q. Ott, Mine Dogucu. [If you like tidyverse and want a different approach to learning Bayesian statistics then look no further. This is a great book]{.underline}
+
+-   [Statistical Rethinking](https://www.routledge.com/Statistical-Rethinking-A-Bayesian-Course-with-Examples-in-R-and-STAN/McElreath/p/book/9780367139919) by Richard McElreath [I just read this book as part of a advanced bio-statistics course. It does a fantastic job at introducing learners to the theory and practice of Bayesian statistics]{.underline}
+
+-   [Statistical Rethinking Online Course](https://github.com/rmcelreath/stat_rethinking_2024) I just found out that McElreath posts his lectures online. This is a great resource.
+
+## On Plotting and Other tools:
+
+-   [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) [This software was designed originally to work with BEAST. It is very intuitive.]{.underline}
+
+-   [Data Integration, Manipulation, and Visualization of Phylogenetic Trees](https://yulab-smu.top/treedata-book/index.html) [This was a lifesaver when I came across it. It uses the grammar of graphics we are used to with packages like ggplot and implements them into phylogenetic trees!]{.underline}
+
+## Some bonus tools and books for coding:
+
+These books are not related to the above but are useful for learning purposes.
+
+-   [R for Data Science](https://r4ds.hadley.nz/) [This will teach you how to do data science in R and set you up well]{.underline}
+
+-   [Statistics for Ecologists](https://statistics4ecologists-v2.netlify.app/) by John Fieberg. [This book is a wonderful review of statistics with a focus on applications in Ecology. I highly recommend, also the author is a really cool person]{.underline}
+
+-   [Where Good Ideas Come From: The Natural History of Innovation](https://www.amazon.com/Where-Good-Ideas-Come-Innovation/dp/1594485380) [I read portions of this book during the first year of my PhD. It changed the way I think about ideas and was very helpful.]{.underline}
+
+## In Summary:
+
+Well that is a lot of different things but I hope that you, my dear reader, might find something useful here. I hope that you can use these in your own scientific career or at the very least get a little peak into the wild world that is viral phylogenetics.
+
+Side Note: As you might be getting by now I am a little bit of a book dragon (I hoard books and then very slowly work my way through them lol).
+
+Until next time keep your eyes to the sky. 
+
+Cheers,
+
+Jonathan Dain

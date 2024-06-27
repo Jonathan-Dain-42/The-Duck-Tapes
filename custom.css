@@ -12,6 +12,10 @@ url(‘https://fonts.googleapis.com/css?family=IM+Fell+English&display=swap’);
 $font-family-regular-400: 'IM Fell English', regular-400;
 $font-family-regular-400-italic: 'IM Fell English', regular-400-italic;
 
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+$font-family-regular-400: 'Courier Prime', regular-400;
+$font-family-regular-400-italic: 'Courier Prime', regular-400-italic;
+
 /*-- scss:rules --*/
 /* Custom text color class */
 h1 {
