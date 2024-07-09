@@ -1,0 +1,15 @@
+---
+title: "An Update to 'Mortality and Trees'"
+description: "A newly revised phylogenetic tree depiction that incorporates experimental infection information from Highly Pathogenic Avian Influenza challenge studies. A x minute read."
+author:
+  - name: Jonathan Dain
+    url: https://jonathan-dain-42.github.io/The-Duck-Tapes/
+    affiliation: VirusPlusLab at UMass Boston
+    affiliation-url: https://www.theviruspluslab.com/
+date: 07-13-2024
+categories: [Phylogenetics] # self-defined categories
+draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+---
+
+## A new paper:
+
