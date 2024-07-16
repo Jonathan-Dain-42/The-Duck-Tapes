@@ -13,6 +13,7 @@ bibliography: references.bib
 lightbox: true
 editor_options: 
   chunk_output_type: console
+image: Artboard_1.png
 ---
 
 ```{=html}
