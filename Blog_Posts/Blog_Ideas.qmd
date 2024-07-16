@@ -13,12 +13,10 @@ draft: TRUE # setting this to `true` will prevent your post from appearing on yo
 
 ### Blog Ideas
 
-A quick intro to using GISAID 
+A quick intro to using GISAID
 
 A Quick intro to using Quarto
 
-For the extra pages to have the following:
-- links to my eventual book
-- links to CRC maybe
-- a disclamer that they are seperate from my PhD and not affiliated with the lab. 
+For the extra pages to have the following: - links to my eventual book - links to CRC maybe - a disclamer that they are seperate from my PhD and not affiliated with the lab.
 
+A overview of SML with pictures of the islands and the nests that we banded geotagged on the island.

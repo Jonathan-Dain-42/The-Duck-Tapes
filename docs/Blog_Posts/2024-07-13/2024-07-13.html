@@ -23,7 +23,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -42,6 +96,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-contrib/glightbox/glightbox.min.js"></script>
+<link href="../../site_libs/quarto-contrib/glightbox/glightbox.min.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/glightbox/lightbox.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -123,7 +180,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#a-new-paper" id="toc-a-new-paper" class="nav-link active" data-scroll-target="#a-new-paper">A new paper:</a></li>
+  <li><a href="#a-new-paper" id="toc-a-new-paper" class="nav-link active" data-scroll-target="#a-new-paper">A New Paper:</a></li>
+  <li><a href="#a-phytools-update" id="toc-a-phytools-update" class="nav-link" data-scroll-target="#a-phytools-update">A Phytools Update:</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The Data:</a></li>
+  <li><a href="#making-a-joint-dataframe" id="toc-making-a-joint-dataframe" class="nav-link" data-scroll-target="#making-a-joint-dataframe">Making a joint dataframe:</a></li>
+  <li><a href="#plotting-the-new-tree" id="toc-plotting-the-new-tree" class="nav-link" data-scroll-target="#plotting-the-new-tree">Plotting the new tree:</a></li>
+  <li><a href="#the-final-plot" id="toc-the-final-plot" class="nav-link" data-scroll-target="#the-final-plot">The Final Plot:</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References:</a></li>
   </ul>
 </nav>
     </div>
@@ -178,13 +241,515 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<style>
+body {
+text-align: justify}
+</style>
 <section id="a-new-paper" class="level2">
-<h2 class="anchored" data-anchor-id="a-new-paper">A new paper:</h2>
+<h2 class="anchored" data-anchor-id="a-new-paper">A New Paper:</h2>
+<p>My PI, Dr.&nbsp;Nichola Hill, approached me about this recent paper <span class="citation" data-cites="gonnerman">(<a href="#ref-gonnerman" role="doc-biblioref">Gonnerman et al., n.d.</a>)</span> that came out titled “A systematic review of laboratory investigations into the pathogenesis of avian influenza viruses in wild avifauna of North America”. The head author of this paper is one of our collaborators and for a flu researcher like myself this is an amazing resource. If you look at the paper, table 1 is a gold mine of information, including ‘mortality rates’, ‘infection rates’ and ‘number of birds infected’! If you have read my other blog post <a href="https://jonathan-dain-42.github.io/The-Duck-Tapes/Blog_Posts/2024-04-30/2024-04-30.html">(here)</a>, you might remember that one of the missing things from that analysis was the numerator of how many birds were sampled. While this still does not solve that issue, it gives us a way to compare the field observation data with the lab/experimental data.</p>
+<p>Nichola asked me if I could marry these two datasets into a updated “mortality tree”. This blog post will do just that, so without further adu let’s get into it. <u><strong>Note: If you are less interested in the coding involved in the creation of this plot feel free to click the sidebar links to go straight to the “final plot” section where you can see the tree and read my thoughts.</strong></u></p>
+</section>
+<section id="a-phytools-update" class="level2">
+<h2 class="anchored" data-anchor-id="a-phytools-update">A Phytools Update:</h2>
+<p>It is worth noting that Dr.&nbsp;Liam Revell, the developer of phytools, just added a new <a href="http://blog.phytools.org/2024/03/function-for-plotting-discrete-andor.html">function</a> to allow for plotting trees with “traits” on them which is great. Previously we had to do some special plotting to make it work but Liam rolled that into this function.</p>
+</section>
+<section id="the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-data">The Data:</h2>
+<p>First let’s pull in the digitized data from the Gonnerman paper. I have hid the packages used but they are the same as in this prior <a href="https://jonathan-dain-42.github.io/The-Duck-Tapes/Blog_Posts/2024-04-30/2024-04-30.html">post</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(maryland_data,<span class="at">n=</span><span class="dv">3</span>) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 3%">
+<col style="width: 3%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 20%">
+<col style="width: 5%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">species</th>
+<th style="text-align: right;">studies</th>
+<th style="text-align: right;">sampled</th>
+<th style="text-align: right;">infected</th>
+<th style="text-align: right;">infection_rate</th>
+<th style="text-align: right;">mortality</th>
+<th style="text-align: right;">mortality_rate</th>
+<th style="text-align: left;">com.name</th>
+<th style="text-align: left;">order</th>
+<th style="text-align: left;">family</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">avonet.name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">phasianus_colchicus</td>
+<td style="text-align: left;">phasianus_colchicus</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">ring-necked pheasant</td>
+<td style="text-align: left;">galliformes</td>
+<td style="text-align: left;">phasianidae (pheasants, grouse, and allies)</td>
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">phasianus_colchicus</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cygnus_buccinator</td>
+<td style="text-align: left;">cygnus_buccinator</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">trumpeter swan</td>
+<td style="text-align: left;">anseriformes</td>
+<td style="text-align: left;">anatidae (ducks, geese, and waterfowl)</td>
+<td style="text-align: left;">Goose/Swan</td>
+<td style="text-align: left;">cygnus_buccinator</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cygnus_olor</td>
+<td style="text-align: left;">cygnus_olor</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">mute swan</td>
+<td style="text-align: left;">anseriformes</td>
+<td style="text-align: left;">anatidae (ducks, geese, and waterfowl)</td>
+<td style="text-align: left;">Goose/Swan</td>
+<td style="text-align: left;">cygnus_olor</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Let’s also bring in our “contMap” object, again from the prior <a href="https://jonathan-dain-42.github.io/The-Duck-Tapes/Blog_Posts/2024-04-30/2024-04-30.html">post</a> and the USDA observational data. Remember that a contMap object is just a tree that we have performed ancestral state estimation to obtain the value of the trait at the internal node of the tree. Then we have interpolated the state of the trait along the edge of the branches. You can read more about this object type using <code>?contMap</code>. In addition we are going to change the color scheme to “plasma” again and ladderize the tree to make it look nice.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#read in tree</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mort_cMap <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="st">"/Users/jonathandain/My_Files/My_Code/Phytools_Workshop_2024/Plotting_Mortality_on_bird_trees/data/mort_cMap_base.rds"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#make the color scheme plasma like we did in the other post. </span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>mort_cMap <span class="ot">&lt;-</span> <span class="fu">setMap</span>(<span class="at">x =</span> mort_cMap,<span class="at">colors=</span><span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="at">n =</span> <span class="dv">25</span>,<span class="at">palette =</span> <span class="st">'Plasma'</span>)))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#ladderise the tree to make it "clean" looking</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>mort_cMap<span class="sc">$</span>tree <span class="ot">&lt;-</span> <span class="fu">ladderize.simmap</span>(mort_cMap<span class="sc">$</span>tree)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#read in USDA observational data</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>d.trait <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="at">file =</span> <span class="st">"/Users/jonathandain/My_Files/My_Code/Phytools_Workshop_2024/Plotting_Mortality_on_bird_trees/data/d.trait.clean_20240328.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="making-a-joint-dataframe" class="level2">
+<h2 class="anchored" data-anchor-id="making-a-joint-dataframe">Making a joint dataframe:</h2>
+<p>We need these two datasets to actually talk to one another before we can begin to plot them.</p>
+<p>First we need to trim down the maryland data to just the avonet name, # sampled, infection rate, and mortality rate.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>maryland_data <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(avonet.name,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>         sampled,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>         infection_rate,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>         mortality_rate) <span class="ot">-&gt;</span>maryland_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we need to write a for loop that goes through our USDA trait dataframe and add in the experimental infection data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">## add in some new columns</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>d.trait <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MD_sampled=</span><span class="st">"NA"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">MD_infection=</span><span class="st">"NA"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">MD_mortality=</span><span class="st">"NA"</span>)<span class="ot">-&gt;</span> d.trait</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># add in the experimental data</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(d.trait)){</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  taxa <span class="ot">&lt;-</span> d.trait<span class="sc">$</span>avonet.name[i]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  taxa</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (taxa <span class="sc">%in%</span> maryland_data<span class="sc">$</span>avonet.name){</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">which</span>(maryland_data<span class="sc">==</span>taxa)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    y</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    d.trait<span class="sc">$</span>MD_sampled[i] <span class="ot">&lt;-</span> maryland_data<span class="sc">$</span>sampled[y]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    d.trait<span class="sc">$</span>MD_infection[i] <span class="ot">&lt;-</span> maryland_data<span class="sc">$</span>infection_rate[y]</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    d.trait<span class="sc">$</span>MD_mortality[i] <span class="ot">&lt;-</span> maryland_data<span class="sc">$</span>mortality_rate[y]</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We also want the birds that lack experimental data to have zero’s so we can plot them later on. Let’s do that below.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Make the NA's zero and pull out the names to check</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>d.trait <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MD_sampled=</span><span class="fu">ifelse</span>(MD_sampled<span class="sc">==</span><span class="st">"NA"</span>,<span class="at">yes=</span><span class="st">'0'</span>,MD_sampled),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">MD_infection=</span><span class="fu">ifelse</span>(MD_infection<span class="sc">==</span><span class="st">"NA"</span>,<span class="at">yes=</span><span class="st">'0'</span>,MD_infection),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">MD_mortality=</span><span class="fu">ifelse</span>(MD_mortality<span class="sc">==</span><span class="st">"NA"</span>,<span class="at">yes=</span><span class="st">'0'</span>,MD_mortality)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MD_sampled=</span><span class="fu">as.numeric</span>(MD_sampled),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">MD_infection=</span><span class="fu">as.numeric</span>(MD_infection),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">MD_mortality=</span><span class="fu">as.numeric</span>(MD_mortality)) <span class="sc">|&gt;</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(MD_sampled<span class="sc">!=</span><span class="dv">0</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(avonet.name) <span class="sc">|&gt;</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()<span class="ot">-&gt;</span>t1 <span class="co">#names in the USDA data</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(maryland_data<span class="sc">$</span>avonet.name) <span class="ot">-&gt;</span> t2 <span class="co">#names in the Lab data</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a> t2[<span class="fu">c</span>(<span class="fu">which</span>(t2<span class="sc">%in%</span>t1<span class="sc">==</span><span class="cn">FALSE</span>))] <span class="co">#check which are missing. </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "melanitta_perspicillata" "columba_livia"          </code></pre>
+</div>
+</div>
+<p>Looks like the surf scoter and the rock dove are not in my USDA data set. For now we will continue on rather than remaking the entire cont_map tree for the moment. So let’s finall change those NA’s to zeros.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#finish making the NA's zeros</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>d.trait <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MD_sampled=</span><span class="fu">ifelse</span>(MD_sampled<span class="sc">==</span><span class="st">"NA"</span>,<span class="at">yes=</span><span class="st">'0'</span>,MD_sampled),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">MD_infection=</span><span class="fu">ifelse</span>(MD_infection<span class="sc">==</span><span class="st">"NA"</span>,<span class="at">yes=</span><span class="st">'0'</span>,MD_infection),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">MD_mortality=</span><span class="fu">ifelse</span>(MD_mortality<span class="sc">==</span><span class="st">"NA"</span>,<span class="at">yes=</span><span class="st">'0'</span>,MD_mortality)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MD_sampled=</span><span class="fu">as.numeric</span>(MD_sampled),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">MD_infection=</span><span class="fu">as.numeric</span>(MD_infection),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">MD_mortality=</span><span class="fu">as.numeric</span>(MD_mortality)) <span class="ot">-&gt;</span> d.trait</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(d.trait,<span class="at">n=</span><span class="dv">4</span>) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 4%">
+<col style="width: 12%">
+<col style="width: 2%">
+<col style="width: 7%">
+<col style="width: 21%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">sci.name</th>
+<th style="text-align: right;">symptomatic</th>
+<th style="text-align: right;">alive</th>
+<th style="text-align: right;">total_cases</th>
+<th style="text-align: right;">tolerance</th>
+<th style="text-align: right;">mortality</th>
+<th style="text-align: left;">avonet.name</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: left;">order</th>
+<th style="text-align: left;">family</th>
+<th style="text-align: right;">MD_sampled</th>
+<th style="text-align: right;">MD_infection</th>
+<th style="text-align: right;">MD_mortality</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">dromaius novaehollandiae</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">dromaius_novaehollandiae</td>
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">casuariiformes</td>
+<td style="text-align: left;">casuariidae (cassowaries and emu)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rhea americana</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">rhea_americana</td>
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">rheiformes</td>
+<td style="text-align: left;">rheidae (rheas)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">callipepla californica</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">callipepla_californica</td>
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">galliformes</td>
+<td style="text-align: left;">Odontophoridae (quail)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">meleagris gallopavo</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">meleagris_gallopavo</td>
+<td style="text-align: left;">Other</td>
+<td style="text-align: left;">galliformes</td>
+<td style="text-align: left;">phasianidae (pheasants, grouse, and allies)</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>That looks great! Finally the last thing we need to do before plotting is to make sure the dataframe and our tree tips are in the same order.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(d.trait) <span class="ot">&lt;-</span> d.trait<span class="sc">$</span>avonet.name</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>d.trait[mort_cMap<span class="sc">$</span>tree<span class="sc">$</span>tip.label,] <span class="ot">-&gt;</span>d.trait</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(d.trait) <span class="ot">&lt;-</span> d.trait<span class="sc">$</span>avonet.name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plotting-the-new-tree" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-the-new-tree">Plotting the new tree:</h2>
+<p>Ok now armed with our new dataframe and the new phytools function <code>plotFanTree.wTraits()</code> we can make a nice plot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Make a lost of colors</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="do">## The first is our sample size</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="do">## second is our "percent infected"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="do">## third is our "percent mortality"</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="at">n =</span> <span class="dv">20</span>,<span class="at">palette =</span> <span class="st">"Light Grays"</span>)),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>               <span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="at">n=</span><span class="dv">20</span>,<span class="at">palette =</span> <span class="st">"Viridis"</span>)),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>               <span class="fu">hcl.colors</span>(<span class="at">n=</span><span class="dv">20</span>,<span class="at">palette =</span> <span class="st">"Plasma"</span>))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Make sure the dataframe is a dataframe not tibble</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(d.trait) <span class="ot">-&gt;</span> d.trait</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(d.trait) <span class="ot">&lt;-</span> d.trait<span class="sc">$</span>avonet.name</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="do">## Plot the tree!!!</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plotFanTree.wTraits</span>(<span class="at">tree =</span> <span class="fu">ladderize</span>(mort_cMap<span class="sc">$</span>tree),</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X =</span> d.trait[,<span class="fu">c</span>(<span class="st">"MD_sampled"</span>,<span class="st">"MD_infection"</span>, </span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"MD_mortality"</span>)],</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colors=</span>colors,<span class="at">type=</span><span class="st">"arc"</span>,<span class="at">part=</span><span class="fl">0.50</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ftype=</span><span class="st">"i"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="2024-07-13_files/figure-html/first plot with fantree and traits-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="2024-07-13_files/figure-html/first plot with fantree and traits-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Wow that looks nice but what about our fancy colored tree -the scientific term for a contMap object. Well we need to overlay that onto this tree so we are going to use the x/y coordinates of this tree and plot the contMap object on top of this plot. Like so….</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the tree</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotFanTree.wTraits</span>(<span class="at">tree =</span> <span class="fu">ladderize</span>(mort_cMap<span class="sc">$</span>tree),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X =</span> d.trait[,<span class="fu">c</span>(<span class="st">"MD_sampled"</span>,<span class="st">"MD_infection"</span>, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"MD_mortality"</span>)],</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colors=</span>colors,<span class="at">type=</span><span class="st">"arc"</span>,<span class="at">part=</span><span class="fl">0.50</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ftype=</span><span class="st">"i"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># get the x/y coords</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>pp<span class="ot">&lt;-</span><span class="fu">get</span>(<span class="st">"last_plot.phylo"</span>,<span class="at">envir=</span>.PlotPhyloEnv)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># overlay the contMap object</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mort_cMap<span class="sc">$</span>tree,mort_cMap<span class="sc">$</span>cols,<span class="at">type=</span><span class="st">"arc"</span>,<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">ftype=</span><span class="st">"off"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span>pp<span class="sc">$</span>x.lim,<span class="at">ylim=</span>pp<span class="sc">$</span>y.lim,<span class="at">part=</span><span class="fl">0.5</span>,<span class="at">arc_height=</span><span class="fl">0.7</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># add in a color bar</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>h<span class="ot">&lt;-</span><span class="fu">max</span>(<span class="fu">nodeHeights</span>(mort_cMap<span class="sc">$</span>tree)) <span class="co">#get positioning for color bar</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="fu">add.color.bar</span>(<span class="fl">1.5</span><span class="sc">*</span>h,<span class="at">cols=</span>mort_cMap<span class="sc">$</span>cols,<span class="at">prompt=</span><span class="cn">FALSE</span>,<span class="at">x=</span><span class="sc">-</span>(<span class="fl">1.5</span><span class="sc">*</span>h)<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="sc">-</span><span class="dv">30</span>,<span class="at">lims=</span>mort_cMap<span class="sc">$</span>lims,<span class="at">title=</span><span class="st">"mortality"</span>,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>              <span class="at">subtitle=</span><span class="st">""</span>,<span class="at">fsize=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="2024-07-13_files/figure-html/- initial overlap of contMap object-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="2024-07-13_files/figure-html/- initial overlap of contMap object-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ohh thats nice but what if we wanted to make the color scheme nicer. Maybe something like the <code>Reds 3</code> palette for the experimental data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="do">## New color scheme</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="at">n =</span> <span class="dv">20</span>,<span class="at">palette =</span> <span class="st">"Reds 3"</span>)),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>               <span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="at">n=</span><span class="dv">20</span>,<span class="at">palette =</span> <span class="st">"Reds 3"</span>)),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>               <span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="at">n=</span><span class="dv">20</span>,<span class="at">palette =</span> <span class="st">"Reds 3"</span>)))</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plotFanTree.wTraits</span>(<span class="at">tree =</span> <span class="fu">ladderize</span>(mort_cMap<span class="sc">$</span>tree),</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X =</span> d.trait[,<span class="fu">c</span>(<span class="st">"MD_sampled"</span>,<span class="st">"MD_infection"</span>, </span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"MD_mortality"</span>)],</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colors=</span>colors,<span class="at">type=</span><span class="st">"arc"</span>,<span class="at">part=</span><span class="fl">0.50</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ftype=</span><span class="st">"i"</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>pp<span class="ot">&lt;-</span><span class="fu">get</span>(<span class="st">"last_plot.phylo"</span>,<span class="at">envir=</span>.PlotPhyloEnv)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mort_cMap<span class="sc">$</span>tree,mort_cMap<span class="sc">$</span>cols,<span class="at">type=</span><span class="st">"arc"</span>,<span class="at">add=</span><span class="cn">TRUE</span>,<span class="at">ftype=</span><span class="st">"off"</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim=</span>pp<span class="sc">$</span>x.lim,<span class="at">ylim=</span>pp<span class="sc">$</span>y.lim,<span class="at">part=</span><span class="fl">0.5</span>,<span class="at">arc_height=</span><span class="fl">0.7</span>,<span class="at">outline=</span>T)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>h<span class="ot">&lt;-</span><span class="fu">max</span>(<span class="fu">nodeHeights</span>(mort_cMap<span class="sc">$</span>tree)) </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="fu">add.color.bar</span>(<span class="fl">1.5</span><span class="sc">*</span>h,<span class="at">cols=</span>mort_cMap<span class="sc">$</span>cols,<span class="at">prompt=</span><span class="cn">FALSE</span>,<span class="at">x=</span><span class="sc">-</span>(<span class="fl">1.5</span><span class="sc">*</span>h)<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="sc">-</span><span class="dv">30</span>,<span class="at">lims=</span>mort_cMap<span class="sc">$</span>lims,<span class="at">title=</span><span class="st">"mortality"</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>              <span class="at">subtitle=</span><span class="st">""</span>,<span class="at">fsize=</span><span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="2024-07-13_files/figure-html/- trying reds color scheme-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="2024-07-13_files/figure-html/- trying reds color scheme-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ok I like this but there is actually a problem here. Look at branta canadiensis for example, do you see how it has the outside most “tip trait” as filled but then it looks like there is nothing in the innermost “tip trait”. That is because the value for the innermost trait -sample size- in this case is very low so it appears empty. We should probably fix that if we want the information plotted to be accurate.</p>
+<p>The way I want to fix this is by manually adjusting the color scheme object that I made above. Remember it is named <code>colors</code> and is a list composed of three different lists of color hex codes. I am going to force any “0”s that are in my percent morality, percent infection and sample size to be the character string “no”. Then I will make everything class factor. Finally I will remake the <code>colors</code> list but make the first element of each list in that object the hex code “#F9F9F9” which is R speak for a transparent color. This will mean that the “no”s in the dataframe will become a transparent color when we plot it on the tree.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#make the new color factors</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>d.trait <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">color_infection=</span><span class="fu">ifelse</span>(MD_sampled<span class="sc">==</span><span class="dv">0</span>,<span class="at">yes=</span><span class="st">"no"</span>,<span class="at">no=</span>MD_infection)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">color_mortality=</span><span class="fu">ifelse</span>(MD_sampled<span class="sc">==</span><span class="dv">0</span>,<span class="at">yes=</span><span class="st">"no"</span>,<span class="at">no=</span>MD_mortality)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">color_samples=</span><span class="fu">ifelse</span>(MD_sampled<span class="sc">==</span><span class="dv">0</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">yes=</span><span class="st">"no"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">no=</span>MD_sampled)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">color_infection=</span><span class="fu">as.factor</span>(color_infection)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">color_mortality=</span><span class="fu">as.factor</span>(color_mortality)) <span class="sc">|&gt;</span> </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">color_samples=</span><span class="fu">as.factor</span>(color_samples))<span class="ot">-&gt;</span>testing_cols</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the new color list </span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>colors <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">setNames</span>(<span class="fu">c</span>(<span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="at">n =</span> <span class="dv">19</span>,<span class="at">palette =</span> <span class="st">"Viridis"</span>))),<span class="fu">c</span>(<span class="fu">levels</span>(testing_cols<span class="sc">$</span>color_samples))),</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>               <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="at">n =</span> <span class="dv">14</span>,<span class="at">palette =</span> <span class="st">"Viridis"</span>))),<span class="fu">c</span>(<span class="fu">levels</span>(testing_cols<span class="sc">$</span>color_infection))),</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>               <span class="fu">setNames</span>(<span class="fu">c</span>(<span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="at">n =</span> <span class="dv">12</span>,<span class="at">palette =</span> <span class="st">"Viridis"</span>))),<span class="fu">c</span>(<span class="fu">levels</span>(testing_cols<span class="sc">$</span>color_mortality))))</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># make the first element of the color list transparent.</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>colors[[<span class="dv">1</span>]][<span class="dv">19</span>]<span class="ot">&lt;-</span><span class="st">"#F9F9F9"</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>colors[[<span class="dv">2</span>]][<span class="dv">14</span>]<span class="ot">&lt;-</span><span class="st">"#F9F9F9"</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>colors[[<span class="dv">3</span>]][<span class="dv">12</span>]<span class="ot">&lt;-</span><span class="st">"#F9F9F9"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ok now with that we can actually plot it! Remember that we are overlapping two plots together so we need to make sure that we have the x/y limits for the tree. We can use the <code>get("last_plot.phylo",envir=.PlotPhyloEnv)</code> function call to pull the last plot. We are going to utilize the <code>contMap</code> object to get the initial sizing and then overlay the two plots.</p>
+<!-- Get some clade labels -->
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">######################################</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' get the sizing and x/y coordinates using the contMap </span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' this will allow us to create space between the tip labels</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#' and the trait boxes. </span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mort_cMap<span class="sc">$</span>tree,mort_cMap<span class="sc">$</span>cols,<span class="at">type=</span><span class="st">"arc"</span>,<span class="at">part=</span><span class="fl">0.5</span>,<span class="at">arc_height=</span><span class="fl">0.7</span>,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">outline=</span>T,<span class="at">fsize=</span><span class="fl">0.5</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">offset=</span><span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#pulls the last plot</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>pp<span class="ot">&lt;-</span><span class="fu">get</span>(<span class="st">"last_plot.phylo"</span>,<span class="at">envir=</span>.PlotPhyloEnv)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># closes the plot from the plotting device. </span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dev.off</span>() <span class="ot">-&gt;</span> garbage</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="do">#####################################</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the fantree.wTraits fist</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotFanTree.wTraits</span>(<span class="at">tree =</span> <span class="fu">ladderize</span>(mort_cMap<span class="sc">$</span>tree),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">X =</span> testing_cols[,<span class="fu">c</span>(<span class="st">"color_samples"</span>,<span class="st">"color_infection"</span>, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">"color_mortality"</span>)],</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colors=</span>colors,<span class="at">type=</span><span class="st">"arc"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">part=</span><span class="fl">0.50</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ftype=</span><span class="st">"off"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">spacer=</span><span class="fl">0.2</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">fsize=</span><span class="fl">0.5</span>,</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xlim=</span>pp<span class="sc">$</span>x.lim,</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ylim=</span>pp<span class="sc">$</span>y.lim,</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">add=</span>T)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Then overlay the contMap tree onto the above plot</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mort_cMap<span class="sc">$</span>tree,mort_cMap<span class="sc">$</span>cols,<span class="at">type=</span><span class="st">"arc"</span>,<span class="at">part=</span><span class="fl">0.5</span>,<span class="at">arc_height=</span><span class="fl">0.7</span>,<span class="at">lwd=</span><span class="dv">3</span>,<span class="at">outline=</span>T,<span class="at">fsize=</span><span class="fl">0.5</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">offset=</span><span class="dv">30</span>,<span class="at">add=</span>T,<span class="at">xlim=</span>pp<span class="sc">$</span>x.lim,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ylim=</span>pp<span class="sc">$</span>y.lim)</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Add in some clade labels for the "Ducks" and "Gulls"</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="fu">arc.cladelabels</span>(<span class="at">tree =</span> mort_cMap<span class="sc">$</span>tree,<span class="st">"Anseriformes"</span>,<span class="at">node =</span> clade_nodes<span class="sc">$</span>node[<span class="dv">1</span>],<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lab.offset=</span><span class="fl">1.17</span>,<span class="at">ln.offset=</span><span class="fl">1.14</span>,<span class="at">mark.node=</span>F)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="fu">arc.cladelabels</span>(<span class="at">tree =</span> mort_cMap<span class="sc">$</span>tree,<span class="st">"Charadriiformes"</span>,<span class="at">node =</span> clade_nodes<span class="sc">$</span>node[<span class="dv">2</span>],<span class="at">col=</span><span class="st">"black"</span>,<span class="at">lab.offset=</span><span class="fl">1.17</span>,<span class="at">ln.offset=</span><span class="fl">1.14</span>,<span class="at">mark.node=</span>F)</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Add in the color bars</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>h<span class="ot">&lt;-</span><span class="fu">max</span>(<span class="fu">nodeHeights</span>(mort_cMap<span class="sc">$</span>tree)) <span class="co">#get height of tree</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Mortality Bar</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="fu">add.color.bar</span>(<span class="fl">1.25</span><span class="sc">*</span>h,<span class="at">cols=</span>mort_cMap<span class="sc">$</span>cols,<span class="at">prompt=</span><span class="cn">FALSE</span>,<span class="at">x=</span><span class="sc">-</span>(<span class="fl">0.8</span><span class="sc">*</span>h)<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="dv">10</span>,<span class="at">lims=</span>mort_cMap<span class="sc">$</span>lims,<span class="at">title=</span><span class="st">"Mortality to HPAI"</span>,</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>              <span class="at">subtitle=</span><span class="st">"USDA Observations"</span>,<span class="at">fsize=</span><span class="fl">0.8</span>)</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Lab Infection Bar</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="fu">add.color.bar</span>(<span class="fl">1.25</span><span class="sc">*</span>h,<span class="at">cols=</span><span class="fu">rev</span>(<span class="fu">hcl.colors</span>(<span class="at">n =</span> <span class="dv">20</span>,<span class="at">palette =</span> <span class="st">"Viridis"</span>)),<span class="at">prompt=</span><span class="cn">FALSE</span>,<span class="at">x=</span><span class="sc">-</span>(<span class="fl">0.8</span><span class="sc">*</span>h)<span class="sc">/</span><span class="dv">2</span>,</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>              <span class="at">y=</span><span class="sc">-</span><span class="dv">20</span>,<span class="at">subtitle=</span><span class="st">""</span>,</span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>              <span class="at">title=</span><span class="st">"Experimental Infection Data"</span>,<span class="at">fsize=</span><span class="fl">0.8</span>,<span class="at">lims=</span><span class="cn">NULL</span>)</span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust the text for the color bar</span></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>(<span class="fl">1.4</span><span class="sc">*</span>h)<span class="sc">/</span><span class="dv">2</span>,<span class="at">y=</span><span class="sc">-</span><span class="dv">25</span>,<span class="st">"higher"</span>,<span class="at">adj=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),<span class="at">cex=</span><span class="fl">0.8</span>)</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span><span class="sc">-</span>(<span class="fl">0.5</span><span class="sc">*</span>h)<span class="sc">/</span><span class="dv">2</span>,<span class="at">y=</span><span class="sc">-</span><span class="dv">25</span>,<span class="st">"lower"</span>,<span class="at">adj=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>),<span class="at">cex=</span><span class="fl">0.8</span>)</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Add in the text for the side traits</span></span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>arc_height <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span>(h<span class="dv">-35</span>)<span class="sc">+</span><span class="fu">seq</span>(<span class="fl">0.05</span>,<span class="at">by=</span><span class="fl">0.07</span>,<span class="at">length.out=</span><span class="fu">ncol</span>(d.trait[,<span class="fu">c</span>(<span class="st">"MD_sampled"</span>,<span class="st">"MD_infection"</span>,</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>                                                          <span class="st">"MD_mortality"</span>)]))<span class="sc">*</span>h<span class="sc">+</span></span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>       arc_height<span class="sc">*</span>h,</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>     <span class="at">y=</span><span class="fu">rep</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="fu">ncol</span>(d.trait[,<span class="fu">c</span>(<span class="st">"MD_sampled"</span>,<span class="st">"MD_infection"</span>,</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"MD_mortality"</span>)])),</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>     <span class="fu">c</span>(<span class="st">"# Sampled"</span>,<span class="st">"Percent Infected"</span>,<span class="st">"Percent Mortality"</span>),</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>     <span class="at">srt=</span><span class="sc">-</span><span class="dv">90</span>,<span class="at">adj=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">0.25</span>),<span class="at">cex=</span><span class="fl">0.5</span>)</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="at">x=</span><span class="sc">-</span>(h<span class="sc">+</span><span class="dv">190</span>)<span class="sc">-</span><span class="fu">seq</span>(<span class="fl">0.05</span>,<span class="at">by=</span><span class="fl">0.07</span>,</span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>                    <span class="at">length.out=</span><span class="fu">ncol</span>(d.trait[,<span class="fu">c</span>(<span class="st">"MD_sampled"</span>,<span class="st">"MD_infection"</span>,<span class="st">"MD_mortality"</span>)]))<span class="sc">*</span>h<span class="sc">+</span>arc_height<span class="sc">*</span>h,</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>     <span class="at">y=</span><span class="fu">rep</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="fu">ncol</span>(d.trait[,<span class="fu">c</span>(<span class="st">"MD_sampled"</span>,<span class="st">"MD_infection"</span>,<span class="st">"MD_mortality"</span>)])),</span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>     <span class="fu">c</span>(<span class="st">"# Sampled"</span>,<span class="st">"Percent Infected"</span>,<span class="st">"Percent Mortality"</span>),</span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>     <span class="at">srt=</span><span class="dv">90</span>,<span class="at">adj=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.25</span>),<span class="at">cex=</span><span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><a href="2024-07-13_files/figure-html/- Final Plotting-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="2024-07-13_files/figure-html/- Final Plotting-1.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I took the liberty of adding in some labels so you know what each trait on the tips of the tree is. It looks a little squished but we are going to fix that outside of R using adobe illustrator so we can also remove any rastering that happens in the image itself.</p>
+</section>
+<section id="the-final-plot" class="level2">
+<h2 class="anchored" data-anchor-id="the-final-plot">The Final Plot:</h2>
+<p>Alright I am back from the world of Adobe Illustrator, with a beautiful plot for you.</p>
+<p><img src="Artboard 1.png" class="img-fluid" alt="The new plot that incorporates both the USDA observational data and the Gonnerman paper experimental infection data"> I think that looks pretty nifty but what does it tell us you might ask? Well for the actual tree nothing has changed. We still see high mortality widely spread across the avian tree. Low mortality to HPAI is largely restricted to members of the order Anseriformes and the family Anatidae more specifically.</p>
+<p>The experimental infection data however on the tips of the tree offers some additional and interesting insights. Let’s start with the ducks - anatidae - because they are glaringly obvious in this plot. For the most part it looks like there has been a large number of experimental infected ducks - based on the darker colors in the sample size trait box. At the same time they are still experiencing low mortality to HPAI, which is very cool to see both the USDA observational data and the lab data supporting this idea that ducks are surviving infection. It is also worth noting that while they are experiencing lower morality they are still getting infected with HPAI during these experiments and are PCR positive for HPAI.</p>
+<p>As for the rest of the tree it is more of a mixed bag. In the species with high sample size that are outside of ducks we are seeing high mortality, consistent with our tree. Interestingly gulls exhibit both high mortality and lower mortality based on the species. While this could be an artifact of lower sample size it I have seen a similar pattern in the field. Some gulls get infected and die, while others can recover provided they have supportive care.</p>
+<p>As with the prior blog post this plot is great for generating new hypothesis and looking at large scale trends but it does not give us much in the way of mechanisms nor does it incorporate any information from the viral side of this dynamic. As you are reading this I am working on a phylodynamic - a way to evaluate the ecological context with which a phylogenetic tree is “born” - that will give much deeper insights into transmission of virus between birds as well as favored hosts of the virus.</p>
+<p>Stay tuned but untill next time keep your eyes to the sky.</p>
+<p>Cheers,</p>
+<p>Jonathan Dain</p>
+</section>
+<section id="references" class="level2">
+
+
 
 
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References:</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-gonnerman" class="csl-entry" role="listitem">
+Gonnerman, Matthew, Christina Leyson, Jeffery D. Sullivan, Mary J. Pantin-Jackwood, Erica Spackman, Jennifer M. Mullinax, and Diann J. Proser. n.d. <span>“A Systematic Review of Laboratory Investigations into the Pathogenesis of Avian Influenza Viruses in Wild Avifauna of North America.”</span> <a href="https://doi.org/10.1101/2024.05.06.592734">https://doi.org/10.1101/2024.05.06.592734</a>.
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -627,6 +1192,31 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
+<script>var lightboxQuarto = GLightbox({"loop":false,"closeEffect":"zoom","openEffect":"zoom","selector":".lightbox","descPosition":"bottom"});
+window.onload = () => {
+  lightboxQuarto.on('slide_before_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    const href = trigger.getAttribute('href');
+    if (href !== null) {
+      const imgEl = window.document.querySelector(`a[href="${href}"] img`);
+      if (imgEl !== null) {
+        const srcAttr = imgEl.getAttribute("src");
+        if (srcAttr && srcAttr.startsWith("data:")) {
+          slideConfig.href = srcAttr;
+        }
+      }
+    } 
+  });
+
+  lightboxQuarto.on('slide_after_load', (data) => {
+    const { slideIndex, slideNode, slideConfig, player, trigger } = data;
+    if (window.Quarto?.typesetMath) {
+      window.Quarto.typesetMath(slideNode);
+    }
+  });
+
+};
+          </script>
 
 
 

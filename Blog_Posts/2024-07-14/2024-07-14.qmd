@@ -1,0 +1,30 @@
+---
+title: "blog post title"
+description: "blog post description (appears underneath the title in smaller text) which is included on the listing page"
+author:
+  - name: Jonathan Dain
+    url: https://jonathan-dain-42.github.io/The-Duck-Tapes/
+    affiliation: VirusPlusLab at UMass Boston
+    affiliation-url: https://www.theviruspluslab.com/
+date: 10-24-2022
+categories: [All] # self-defined categories
+draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+---
+
+<!-- ## Some Mid Appledore Unedited Thoughts: -->
+
+<!-- Wow what an amazing first two days here on Appledore. We had a huge change in plans with some personel. A outstanding vet and her sister who have been working on this island for the last 15 years were not able to join us this time. This meant that I would be highly involved in running the show. Little did I know that would mean I would be the main bleeder.  -->
+
+<!-- In just one day so far I have bled 24 fledgling Great Black Black Gulls. For all but one I was able to draw 1.5-2ml of blood that was then distributed among three vials. One for genetic sexing, one for my transcriptomics, and one for serum to test for antibodies.  -->
+
+<!-- It has been amazing and Nichola (my pi) has been extremely encouraging and said we should apply for my banding permit. That would be a dream come true!!  -->
+
+## JUST BREATHE
+
+I exhaled as I withdrew the needle from the vein of this Great Black Back Gull chick that looks like it is about to fledge (learn to fly). This was the 20th bird today and 72nd overall so far on this trip. 
+
+## A NEW GENERATION
+
+Field work is much like discipleship, in the field the wiser must teach the younger or else there will be no passage of skills. In the same vein, the younger needs to be prepared for when they are needed. Well this trip the younger generation was needed. We were down two of our key players for this fledgling banding trip. Which meant that Dylan - a member of the banding team - and I - VirusPlusLab - would need to co-lead the week long gull capture session. 
+
+Of course we would not be alone in this endeavor. Along with us we had my PI, Dr. Nichola Hill,
