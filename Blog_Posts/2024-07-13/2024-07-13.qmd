@@ -7,7 +7,7 @@ author:
     affiliation: VirusPlusLab at UMass Boston
     affiliation-url: https://www.theviruspluslab.com/
 date: 07-16-2024
-categories: [Phylogenetics] # self-defined categories
+categories: [phylogenetics,analysis] # self-defined categories
 draft: FALSE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
 bibliography: references.bib
 lightbox: true
@@ -22,19 +22,17 @@ body {
 text-align: justify}
 </style>
 ```
-
 ## A New Paper:
 
-My PI, Dr. Nichola Hill, approached me about this recent paper [@gonnerman] that came out titled "A systematic review of laboratory investigations into the pathogenesis of avian influenza viruses in wild avifauna of North America". The head author of this paper is one of our collaborators and for a flu researcher like myself this is an amazing resource. If you look at the paper, table 1 is a gold mine of information, including 'mortality rates', 'infection rates' and 'number of birds infected'! If you have read my other blog post [(here)](https://jonathan-dain-42.github.io/The-Duck-Tapes/Blog_Posts/2024-04-30/2024-04-30.html), you might remember that one of the missing things from that analysis was the numerator of how many birds were sampled. While this still does not solve that issue, it gives us a way to compare the field observation data with the lab/experimental data. 
+My PI, Dr. Nichola Hill, approached me about this recent paper [@gonnerman] that came out titled "A systematic review of laboratory investigations into the pathogenesis of avian influenza viruses in wild avifauna of North America". The head author of this paper is one of our collaborators and for a flu researcher like myself this is an amazing resource. If you look at the paper, table 1 is a gold mine of information, including 'mortality rates', 'infection rates' and 'number of birds infected'! If you have read my other blog post [(here)](https://jonathan-dain-42.github.io/The-Duck-Tapes/Blog_Posts/2024-04-30/2024-04-30.html), you might remember that one of the missing things from that analysis was the numerator of how many birds were sampled. While this still does not solve that issue, it gives us a way to compare the field observation data with the lab/experimental data.
 
 Nichola asked me if I could marry these two datasets into a updated "mortality tree". This blog post will do just that, so without further adu let's get into it. [**Note: If you are less interested in the coding involved in the creation of this plot feel free to click the sidebar links to go straight to the "final plot" section where you can see the tree and read my thoughts.**]{.underline}
 
 ## A Phytools Update:
 
-It is worth noting that Dr. Liam Revell, the developer of phytools, just added a new [function](http://blog.phytools.org/2024/03/function-for-plotting-discrete-andor.html) to allow for plotting trees with "traits" on them which is great. Previously we had to do some special plotting to make it work but Liam rolled that into this function. 
+It is worth noting that Dr. Liam Revell, the developer of phytools, just added a new [function](http://blog.phytools.org/2024/03/function-for-plotting-discrete-andor.html) to allow for plotting trees with "traits" on them which is great. Previously we had to do some special plotting to make it work but Liam rolled that into this function.
 
-
-## The Data: 
+## The Data:
 
 First let's pull in the digitized data from the Gonnerman paper. I have hid the packages used but they are the same as in this prior [post](https://jonathan-dain-42.github.io/The-Duck-Tapes/Blog_Posts/2024-04-30/2024-04-30.html).
 
@@ -59,9 +57,8 @@ maryland_data <- readRDS(file = "/Users/jonathandain/My_Files/My_Code/Phytools_W
 ```{r - examining the maryland data}
 head(maryland_data,n=3) |> knitr::kable()
 ```
-  
 
-Let's also bring in our "contMap" object, again from the prior [post](https://jonathan-dain-42.github.io/The-Duck-Tapes/Blog_Posts/2024-04-30/2024-04-30.html) and the USDA observational data. Remember that a contMap object is just a tree that we have performed ancestral state estimation to obtain the value of the trait at the internal node of the tree. Then we have interpolated the state of the trait along the edge of the branches. You can read more about this object type using `?contMap`. In addition we are going to change the color scheme to "plasma" again and ladderize the tree to make it look nice. 
+Let's also bring in our "contMap" object, again from the prior [post](https://jonathan-dain-42.github.io/The-Duck-Tapes/Blog_Posts/2024-04-30/2024-04-30.html) and the USDA observational data. Remember that a contMap object is just a tree that we have performed ancestral state estimation to obtain the value of the trait at the internal node of the tree. Then we have interpolated the state of the trait along the edge of the branches. You can read more about this object type using `?contMap`. In addition we are going to change the color scheme to "plasma" again and ladderize the tree to make it look nice.
 
 ```{r - reading in data}
 #read in tree
@@ -80,9 +77,9 @@ d.trait <- readRDS(file = "/Users/jonathandain/My_Files/My_Code/Phytools_Worksho
 
 ## Making a joint dataframe:
 
-We need these two datasets to actually talk to one another before we can begin to plot them. 
+We need these two datasets to actually talk to one another before we can begin to plot them.
 
-First we need to trim down the maryland data to just the avonet name, # sampled, infection rate, and mortality rate.
+First we need to trim down the maryland data to just the avonet name, \# sampled, infection rate, and mortality rate.
 
 ```{r - prune the maryland data}
 maryland_data |> 
@@ -92,7 +89,7 @@ maryland_data |>
          mortality_rate) ->maryland_data
 ```
 
-Now we need to write a for loop that goes through our USDA trait dataframe and add in the experimental infection data. 
+Now we need to write a for loop that goes through our USDA trait dataframe and add in the experimental infection data.
 
 ```{r - creating the joint dataframe}
 ## add in some new columns
@@ -115,7 +112,7 @@ for (i in 1:nrow(d.trait)){
 }
 ```
 
-We also want the birds that lack experimental data to have zero's so we can plot them later on. Let's do that below. 
+We also want the birds that lack experimental data to have zero's so we can plot them later on. Let's do that below.
 
 ```{r - checking on missing names}
 ## Make the NA's zero and pull out the names to check
@@ -151,7 +148,7 @@ d.trait |>
 head(d.trait,n=4) |> knitr::kable()
 ```
 
-That looks great! Finally the last thing we need to do before plotting is to make sure the dataframe and our tree tips are in the same order. 
+That looks great! Finally the last thing we need to do before plotting is to make sure the dataframe and our tree tips are in the same order.
 
 ```{r - ordering trait table}
 #| warning: false
@@ -162,7 +159,7 @@ rownames(d.trait) <- d.trait$avonet.name
 
 ## Plotting the new tree:
 
-Ok now armed with our new dataframe and the new phytools function `plotFanTree.wTraits()` we can make a nice plot. 
+Ok now armed with our new dataframe and the new phytools function `plotFanTree.wTraits()` we can make a nice plot.
 
 ```{r first plot with fantree and traits}
 ## Make a lost of colors
@@ -184,6 +181,7 @@ plotFanTree.wTraits(tree = ladderize(mort_cMap$tree),
                     colors=colors,type="arc",part=0.50,
                     ftype="i")
 ```
+
 Wow that looks nice but what about our fancy colored tree -the scientific term for a contMap object. Well we need to overlay that onto this tree so we are going to use the x/y coordinates of this tree and plot the contMap object on top of this plot. Like so....
 
 ```{r - initial overlap of contMap object}
@@ -209,7 +207,7 @@ add.color.bar(1.5*h,cols=mort_cMap$cols,prompt=FALSE,x=-(1.5*h)/2,
               subtitle="",fsize=0.8)
 ```
 
-Ohh thats nice but what if we wanted to make the color scheme nicer. Maybe something like the `Reds 3` palette for the experimental data. 
+Ohh thats nice but what if we wanted to make the color scheme nicer. Maybe something like the `Reds 3` palette for the experimental data.
 
 ```{r - trying reds color scheme}
 ## New color scheme
@@ -234,9 +232,10 @@ add.color.bar(1.5*h,cols=mort_cMap$cols,prompt=FALSE,x=-(1.5*h)/2,
               y=-30,lims=mort_cMap$lims,title="mortality",
               subtitle="",fsize=0.8)
 ```
-Ok I like this but there is actually a problem here. Look at branta canadiensis for example, do you see how it has the outside most "tip trait" as filled but then it looks like there is nothing in the innermost "tip trait". That is because the value for the innermost trait -sample size- in this case is very low so it appears empty. We should probably fix that if we want the information plotted to be accurate. 
 
-The way I want to fix this is by manually adjusting the color scheme object that I made above. Remember it is named `colors` and is a list composed of three different lists of color hex codes. I am going to force any "0"s that are in my percent morality, percent infection and sample size to be the character string "no". Then I will make everything class factor. Finally I will remake the `colors` list but make the first element of each list in that object the hex code "#F9F9F9" which is R speak for a transparent color. This will mean that the "no"s in the dataframe will become a transparent color when we plot it on the tree. 
+Ok I like this but there is actually a problem here. Look at branta canadiensis for example, do you see how it has the outside most "tip trait" as filled but then it looks like there is nothing in the innermost "tip trait". That is because the value for the innermost trait -sample size- in this case is very low so it appears empty. We should probably fix that if we want the information plotted to be accurate.
+
+The way I want to fix this is by manually adjusting the color scheme object that I made above. Remember it is named `colors` and is a list composed of three different lists of color hex codes. I am going to force any "0"s that are in my percent morality, percent infection and sample size to be the character string "no". Then I will make everything class factor. Finally I will remake the `colors` list but make the first element of each list in that object the hex code "#F9F9F9" which is R speak for a transparent color. This will mean that the "no"s in the dataframe will become a transparent color when we plot it on the tree.
 
 ```{r - create custom color scheme}
 #make the new color factors
@@ -261,9 +260,10 @@ colors[[2]][14]<-"#F9F9F9"
 colors[[3]][12]<-"#F9F9F9"
 ```
 
-Ok now with that we can actually plot it! Remember that we are overlapping two plots together so we need to make sure that we have the x/y limits for the tree. We can use the `get("last_plot.phylo",envir=.PlotPhyloEnv)` function call to pull the last plot. We are going to utilize the `contMap` object to get the initial sizing and then overlay the two plots. 
+Ok now with that we can actually plot it! Remember that we are overlapping two plots together so we need to make sure that we have the x/y limits for the tree. We can use the `get("last_plot.phylo",envir=.PlotPhyloEnv)` function call to pull the last plot. We are going to utilize the `contMap` object to get the initial sizing and then overlay the two plots.
 
 <!-- Get some clade labels -->
+
 ```{r - get clade labels}
 #| eval: true
 #| echo: false
@@ -278,7 +278,6 @@ char_node <- getMRCA(phy = mort_cMap$tree,tip = d.trait[d.trait$order=="charadri
 
 clade_nodes <- tibble(group=c('anseriformes','charadriiformes'),node=c(ans_node,char_node))
 ```
-
 
 ```{r - get the spacing of the plot}
 #| message: false
@@ -298,7 +297,6 @@ pp<-get("last_plot.phylo",envir=.PlotPhyloEnv)
 dev.off() -> garbage
 #####################################
 ```
-
 
 ```{r - Final Plotting}
 # Plot the fantree.wTraits fist
@@ -362,20 +360,20 @@ text(x=-(h+190)-seq(0.05,by=0.07,
 
 
 ```
-I took the liberty of adding in some labels so you know what each trait on the tips of the tree is.  It looks a little squished but we are going to fix that outside of R using adobe illustrator so we can also remove any rastering that happens in the image itself. 
+
+I took the liberty of adding in some labels so you know what each trait on the tips of the tree is. It looks a little squished but we are going to fix that outside of R using adobe illustrator so we can also remove any rastering that happens in the image itself.
 
 ## The Final Plot:
 
-Alright I am back from the world of Adobe Illustrator, with a beautiful plot for you. 
+Alright I am back from the world of Adobe Illustrator, with a beautiful plot for you.
 
-![The new plot that incorporates both the USDA observational data and the Gonnerman paper experimental infection data](Artboard 1.png)
-I think that looks pretty nifty but what does it tell us you might ask? Well for the actual tree nothing has changed. We still see high mortality widely spread across the avian tree. Low mortality to HPAI is largely restricted to members of the order Anseriformes and the family Anatidae more specifically. 
+![The new plot that incorporates both the USDA observational data and the Gonnerman paper experimental infection data](Artboard%201.png) I think that looks pretty nifty but what does it tell us you might ask? Well for the actual tree nothing has changed. We still see high mortality widely spread across the avian tree. Low mortality to HPAI is largely restricted to members of the order Anseriformes and the family Anatidae more specifically.
 
-The experimental infection data however on the tips of the tree offers some additional and interesting insights. Let's start with the ducks - anatidae - because they are glaringly obvious in this plot. For the most part it looks like there has been a large number of experimental infected ducks - based on the darker colors in the sample size trait box. At the same time they are still experiencing low mortality to HPAI, which is very cool to see both the USDA observational data and the lab data supporting this idea that ducks are surviving infection. It is also worth noting that while they are experiencing lower morality they are still getting infected with HPAI during these experiments and are PCR positive for HPAI. 
+The experimental infection data however on the tips of the tree offers some additional and interesting insights. Let's start with the ducks - anatidae - because they are glaringly obvious in this plot. For the most part it looks like there has been a large number of experimental infected ducks - based on the darker colors in the sample size trait box. At the same time they are still experiencing low mortality to HPAI, which is very cool to see both the USDA observational data and the lab data supporting this idea that ducks are surviving infection. It is also worth noting that while they are experiencing lower morality they are still getting infected with HPAI during these experiments and are PCR positive for HPAI.
 
-As for the rest of the tree it is more of a mixed bag. In the species with high sample size that are outside of ducks we are seeing high mortality, consistent with our tree. Interestingly gulls exhibit both high mortality and lower mortality based on the species. While this could be an artifact of lower sample size it I have seen a similar pattern in the field. Some gulls get infected and die, while others can recover provided they have supportive care. 
+As for the rest of the tree it is more of a mixed bag. In the species with high sample size that are outside of ducks we are seeing high mortality, consistent with our tree. Interestingly gulls exhibit both high mortality and lower mortality based on the species. While this could be an artifact of lower sample size it I have seen a similar pattern in the field. Some gulls get infected and die, while others can recover provided they have supportive care.
 
-As with the prior blog post this plot is great for generating new hypothesis and looking at large scale trends but it does not give us much in the way of mechanisms nor does it incorporate any information from the viral side of this dynamic. As you are reading this I am working on a phylodynamic - a way to evaluate the ecological context with which a phylogenetic tree is "born" - that will give much deeper insights into transmission of virus between birds as well as favored hosts of the virus. 
+As with the prior blog post this plot is great for generating new hypothesis and looking at large scale trends but it does not give us much in the way of mechanisms nor does it incorporate any information from the viral side of this dynamic. As you are reading this I am working on a phylodynamic - a way to evaluate the ecological context with which a phylogenetic tree is "born" - that will give much deeper insights into transmission of virus between birds as well as favored hosts of the virus.
 
 Stay tuned but untill next time keep your eyes to the sky.
 
