@@ -8,7 +8,7 @@ author:
     affiliation-url: https://www.theviruspluslab.com/
 date: 08-02-2024
 categories: [analysis] # self-defined categories
-draft: FALSE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
 image: Untitled-1.png
 lightbox: true
 ---
