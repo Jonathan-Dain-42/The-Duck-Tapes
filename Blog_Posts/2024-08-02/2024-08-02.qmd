@@ -66,7 +66,7 @@ But alas I was forced to copy and paste this for loop whenever I wanted to use i
 
 Well one day I decided to take this for loop one step further and made a series of functions that allow me to do this with ease! No more copy and pasting from various different projects it all lives in one handy package.....
 
-## Enter SpeciesClassifyR
+## Enter [SpeciesClassifyR](https://github.com/Jonathan-Dain-42/SpeciesClassifyR)
 
 I am proud to present the SpeciesClassifyR package, who's sole goal is to reduce the headache of dealing with species names. 
 
