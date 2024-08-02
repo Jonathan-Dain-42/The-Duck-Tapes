@@ -1,0 +1,154 @@
+---
+title: "Introducing SpeciesClassifyR"
+description: "A blog post detailing the basic use of a R package I created to deal with avian species names."
+author:
+  - name: Jonathan Dain
+    url: https://jonathan-dain-42.github.io/The-Duck-Tapes/
+    affiliation: VirusPlusLab at UMass Boston
+    affiliation-url: https://www.theviruspluslab.com/
+date: 08-02-2024
+categories: [analysis] # self-defined categories
+draft: TRUE # setting this to `true` will prevent your post from appearing on your listing page until you're ready!
+image: Untitled-1.png
+lightbox: true
+---
+
+```{=html}
+<style>
+body {
+text-align: justify}
+</style>
+```
+
+## A bird by any other name is still just a feathered   
+
+Let me give you a few scenarios.
+
+If I said I saw a mallard the other day you would probably think of this little gal.  
+
+![A female mallard I just finished sampling to screen for avian influenza.](PXL_20240130_035830946.jpg){width=80%}
+
+But would you know her latin name? Maybe not off the top of your head. (proud #birdnerds excluded)
+
+Now if I said I save a *Gavia immer* while on a kayake last weekend you might not know I was talking about this beautiful friend (again proud #birdnerds excluded). [It is highly recommended to click on these images to see them on a large scale.]{.underline}
+
+:::{layout-ncol="2"}
+![A common loon social gathering I was lucky enough to catch on camera](COLO_Edited_Social_Gathering.jpg)    
+
+![Another shot of the social gathering](COLO_Edited_Social_Gathering_2.jpg)  
+
+
+![Ok one more because COLO's are simply gorgeous](COLO_Edited_Kayake_Lake.jpg)   
+:::
+
+I run into this problem alot where I am either dealing with a birds common name and I need its latin name or the inverse. 
+
+So often do I run into this that I had to make a lookup table to make finding and often replacing one name for another easier. It looked something like this for loop:
+
+```{r}
+#| eval: false
+#My "fancy" for loop
+
+for(i in 1:nrow(d)){ #loops through the rows
+  host <- d$`Bird Species`[i] #finds the host name 
+  host
+  if (host %in% Species_Lookup$alt.common.name){ #checks to see if it's in the data
+    y <- which(Species_Lookup$alt.common.name==host) #gets an index
+    y
+    d$sci.name[i] <- Species_Lookup$scientific.name[y] #replaces it with a species
+    d$sci.name[i]
+  }
+}
+
+```
+
+But alas I was forced to copy and paste this for loop whenever I wanted to use it. Nice but not efficient.
+
+Well one day I decided to take this for loop one step further and made a series of functions that allow me to do this with ease! No more copy and pasting from various different projects it all lives in one handy package.....
+
+## Enter SpeciesClassifyR
+
+I am proud to present the SpeciesClassifyR package, who's sole goal is to reduce the headache of dealing with species names. 
+
+![The SpeciesClassifyR package](Untitled-1.png){width=40%}
+
+You can install this package and use the functions inside of it yourself using the below code.
+
+```{r}
+#| eval: false
+#Install it from Github
+pacman::p_install_gh("Jonathan-Dain-42/SpeciesClassifyR")
+#Load it in your R session
+library(SpeciesClassifyR)
+```
+
+```{r}
+#| echo: false
+#| eval: true
+library(SpeciesClassifyR)
+```
+
+
+The rest of this blog post walks through a few different examples of how to use this package.
+
+Lets say you have a series of avian common names that you want to make latin names. You could run something like this!
+
+```{r}
+# Let's load some test data from the package
+data("test_dat")
+
+#Take a look at it. See how the "Species column" has our common names in it. 
+head(test_dat) |> knitr::kable()  
+
+# use those common names to get scientific names!
+classify_species.common(data=test_dat,species_col="Species") |> head() |> knitr::kable()
+```
+
+This of course returns a tibble with our newly added latin names as well as some bonus taxonomic data like family and order. One thing to note is that you need to specify the column your common names are in. This allows it to find the proper latin names to give you. 
+
+Well this is all fine and good but what if you have a bird species that is somehow lacking from my dataset. That is totally possible! Especially given that when I built this package I had a very North American centered dataset. Never fear you can actually update the dataset yourself. 
+
+Something like this:
+
+```{r}
+# Let's say you needed to add common loon to your lookup sheet.
+# you would need to in this case since it's already there but just for fun
+
+update_lookup(common.name = "common loon 2", #Just so we can see it. 
+              type = "seabird", # a management type
+              scientific.name = "gavia immer", # the latin name
+              english.name.ebird = "common loon", #the proper english name
+              order = "gaviiformes", # the taxonomic order
+              family = "gaviidae (loons)", # the taxonomic family
+              domestic = "wild") |> # whether this bird is wild or domestic
+  tail()|> knitr::kable() # I piped it to tail just so we can see our new row. 
+```
+
+For the above it is important to note that the lookup tibble is formatted with the following columns: alt.common.name, type, scientific.name, ebird.english.name, family, order, domestic. Where domestic is a either wild or domestic. 
+
+If those any of these categories are not useful to you fill them with NA’s :)
+
+Finally we can also go from scientific names to common names if we needed to. Maybe for swapping out the tip labels on a phylogenetic tree perhaps (hint hint).
+
+```{r}
+#| warning: false
+#First lets use our other function to get some scientific names
+classify_species.common(data=test_dat,species_col="Species") -> new_dat
+
+#Now we can use this new function to go back to common names
+classify_species.scientific(data=new_dat, species_col="scientific.name") |> head()|> knitr::kable()
+```
+  
+The final function of this package has nothing to do with classification. It is a helper function that makes calculating the run time of a BEAST MCMC run way easier. That said for the sake of documenting it here you can see an example below.
+
+```{r}
+days_to_run(total_steps = 200000000,hours_per_million = 0.49)
+```
+
+Thats it! A whole package developed by yours truly and released on my Birthday woohoo!! I hope this has been fun or at the very least interesting. If you wanted to learn about making your own R packages you can find more information in Hadley Wickham and Jennifer Bryan's book ["R Packages"](https://r-pkgs.org/).
+
+Untill next time keep your eyes to the sky!
+
+Cheers, 
+
+Jonathan Dain
